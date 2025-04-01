@@ -1,0 +1,4 @@
+tree_sitter_python
+tree_sitter
+google-genai
+pydantic-settings

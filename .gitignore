@@ -1,0 +1,9 @@
+observe_traces/
+pocSWE/
+struct_logs/
+bm25_encoder.pkl
+dummy.py
+chunks.json
+__pycache__
+.DS_Store
+.env
