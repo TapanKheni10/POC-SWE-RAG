@@ -8,6 +8,7 @@ import json
 from datetime import datetime
 import asyncio
 import pickle
+import hashlib
 
 with open("bm25_encoder.pkl", "rb") as f:
     bm25 = pickle.load(f)
@@ -27,7 +28,7 @@ class VectorDB:
         self.embedding_url = "https://api.voyageai.com/v1/embeddings" 
         self.embeddings = []
         self.sparse_embeddings = []
-        self.embedding_cache_file = "embedding_cache.json"
+        self.embedding_cache_file = "embedding_cache_with_context.json"
         self.timeout = httpx.Timeout(
             connect=60.0,
             read=300.0,
@@ -37,11 +38,11 @@ class VectorDB:
         self.pinecone_api_version = "2025-04"
         self.create_index_url = "https://api.pinecone.io/indexes"
         self.upsert_index_url = "https://{}/vectors/upsert"
-        self.index_metric = "cosine"
+        self.index_metric = "dotproduct"
         self.index_name = f"demo-{self.index_metric}"
         self.pinecone_client = Pinecone(api_key = self.pinecone_api_key)
         self.index_host = ""
-        self.namespace_name = f"demo-namespace"
+        self.namespace_name = f"demo-namespace-with-context"
         
     async def voyageai_dense_embedding(self, inputs: list, input_type: str = "document", use_cache: bool = True):
         
@@ -62,17 +63,18 @@ class VectorDB:
         }
         
         try:
-            async with httpx.AsyncClient(verify = False, timeout = self.timeout) as client:
-                response = await client.post(self.embedding_url, headers=headers, json=data)
-                response.raise_for_status()
-                response = response.json()
-                loggers["VoyageLogger"].info(f"pinecone hosted embedding model tokens usage: {response['usage']}")
-                embedding_list = [item["embedding"] for item in response["data"]]
-                self.embeddings = embedding_list
+            # async with httpx.AsyncClient(verify = False, timeout = self.timeout) as client:
+            #     response = await client.post(self.embedding_url, headers=headers, json=data)
+            #     response.raise_for_status()
+            #     response = response.json()
+            #     loggers["VoyageLogger"].info(f"pinecone hosted embedding model tokens usage: {response['usage']}")
+            #     embedding_list = [item["embedding"] for item in response["data"]]
+            #     self.embeddings = embedding_list
                 
-                self.save_embeddings_to_cache(inputs, embedding_list)
+            #     self.save_embeddings_to_cache(inputs, embedding_list)
                 
-                return embedding_list
+            #     return embedding_list
+            pass
             
         except httpx.HTTPStatusError as e:
             loggers["VoyageLogger"].error(f"detail message of voyage embed failure: {e.response.text}")
@@ -128,7 +130,7 @@ class VectorDB:
         
         results = []
         for i, chunk in enumerate(chunks):
-            metadata = {key: value for key, value in chunk.items() if key != "id"}
+            metadata = {key: value for key, value in chunk.items() if key != "id" and value is not None}
             
             metadata["created_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             
@@ -178,7 +180,7 @@ class VectorDB:
             cache_data = {}
             
             for i, input_text in enumerate(inputs):
-                input_hash = str(hash(input_text))
+                input_hash = hashlib.sha256(input_text.encode('utf-8')).hexdigest()
                 cache_data[input_hash] = {
                     "embedding" : embeddings[i]
                 }
@@ -194,20 +196,23 @@ class VectorDB:
     def load_embeddings_from_cache(self, inputs: list):
         try:
             try:
-                with open(self.embeddings_cache_file, 'r') as f:
+                with open(self.embedding_cache_file, 'r') as f:
                     cache_data = json.load(f)
             except (FileNotFoundError, json.JSONDecodeError):
+                loggers["VoyageLogger"].error(f"Cache file not found or is not a valid JSON file.")
                 return False
             
             embeddings = []
             for input_text in inputs:
-                input_hash = str(hash(input_text))
+                input_hash = hashlib.sha256(input_text.encode('utf-8')).hexdigest()
                 if input_hash not in cache_data:
+                    loggers["VoyageLogger"].info(f"Input not found in cache: {input_hash}")
                     return False
                 
                 cached_item = cache_data[input_hash]
                 
                 if "embedding" not in cached_item:
+                    loggers["VoyageLogger"].info(f"Embedding not found in cache for input: {input_hash}")
                     return False
                 
                 embeddings.append(cached_item["embedding"])
@@ -263,7 +268,7 @@ async def main():
         use_cache = True
     )
     
-    await obj.pinecone_sparse_embedding(
+    obj.pinecone_sparse_embedding(
         inputs = content
     )
     

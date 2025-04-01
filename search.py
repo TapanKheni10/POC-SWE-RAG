@@ -1,14 +1,15 @@
-from settings import Config
-from logging_util import loggers
 import httpx
+import json
 import pickle
+from settings import Config
 from pinecone import Pinecone
+from logging_util import loggers
 
 with open("bm25_encoder.pkl", "rb") as f:
     bm25 = pickle.load(f)
 
 class SearchDB:
-    def __init__(self, pinecone_api_key: str, voyage_api_key: str):
+    def __init__(self, pinecone_api_key: str = None, voyage_api_key: str = None):
         self.pinecone_api_key = pinecone_api_key
         if not pinecone_api_key:
             self.pinecone_api_key = Config.PINECONE_API_KEY
@@ -31,9 +32,9 @@ class SearchDB:
         
         self.query_url = "https://{}/query"
         self.pinecone_api_version = "2025-04"
-        self.index_metric = "cosine"
+        self.index_metric = "dotproduct"
         self.index_name = f"demo-{self.index_metric}"
-        self.namespace_name = f"demo-namespace"
+        self.namespace_name = f"demo-namespace-with-context"
         self.index_host = ""
         self.pinecone_client = Pinecone(api_key = self.pinecone_api_key)
         
@@ -92,7 +93,7 @@ class SearchDB:
         }
         
         hdense, hsparse = self.hybrid_scale(
-            self.question_embedding, self.question_sprase_embedding[0], alpha
+            self.question_embedding[0], self.question_sprase_embedding[0], alpha
         )
         
         payload = {
@@ -154,27 +155,57 @@ class SearchDB:
     def is_question_sparse_embedding_generated(self):
         return bool(self.question_sprase_embedding)
     
+def save_results_to_json(results, output_file: str):
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=4)
+    
+    print(f"Results saved to {output_file}")
+    
 async def main():
     
-    question = []
+    question = ["""How does the LangfuseClient interact with the Langfuse service to create generation, span, and trace objects, 
+                and how does it handle metadata and cost details during operations such as vector database queries, embedding, and reranking?"""]
     
     obj = SearchDB()
-    dense_embedding = await obj.voyageai_dense_embedding(inputs = question)
-    sparse_embedding = obj.pinecone_sparse_embedding(inputs = question)
+    await obj.voyageai_dense_embedding(inputs = question)
+    obj.pinecone_sparse_embedding(inputs = question)
     print('=*='*20)
     
     is_embedding_generated = obj.is_question_embedding_generated()
-    print(f"is embedding generated: {is_embedding_generated}")
+    print(f"is dense embedding generated: {is_embedding_generated}")
     print(f"=*="*20)
     
     is_sparse_embedding_generated = obj.is_question_sparse_embedding_generated()
-    print(f"is embedding generated: {is_sparse_embedding_generated}")
+    print(f"is sparse embedding generated: {is_sparse_embedding_generated}")
     print(f"=*="*20)
     
     results = await obj.pinecone_hybrid_search(
-        top_k = 30,
+        top_k = 5,
         alpha = 0.3,
         include_metadata = True 
     )
+    print(results.keys())
+    print(f"=*="*20)
+    
+    retrieved = []
+    for match in results["matches"]:
+        retrieved.append({
+            "score": match["score"],
+            "content": match["metadata"]["content"],
+            "start_line": match["metadata"]["start_line"],
+            "end_line": match["metadata"]["end_line"],
+            "file_name": match["metadata"]["file_name"],
+            "file_path": match["metadata"]["file_path"],
+        })
+        
+        print(f"file_name: {match['metadata']['file_name']}")
+        print(f"{match['metadata']['content']}")
+        print(f"=*="*20)
+        
+    # save_results_to_json(retrieved, "retrieved_results_with_context.json")
+    
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
     
     
