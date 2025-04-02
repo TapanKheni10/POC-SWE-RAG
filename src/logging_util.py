@@ -55,5 +55,6 @@ loggers = {
     "ChunkLogger" : setup_logger("chunker", "chunking.log"),
     "GeminiLogger" : setup_logger("gemini", "gemini_usage.log"),
     "VoyageLogger" : setup_logger("voyageai", "embedding_generation.log"),
-    "PineconeLogger" : setup_logger("pinecone", "pinecone_usage.log")
+    "PineconeLogger" : setup_logger("pinecone", "pinecone_usage.log"),
+    "GroqLogger" : setup_logger("groq", "groq_usage.log"),
 }

@@ -1,5 +1,6 @@
-import httpx
 import json
+import re
+import httpx
 import pickle
 from settings import Config
 from pinecone import Pinecone
@@ -7,6 +8,8 @@ from logging_util import loggers
 
 with open("bm25_encoder.pkl", "rb") as f:
     bm25 = pickle.load(f)
+    
+groq_chat_url = "https://api.groq.com/openai/v1/chat/completions"
 
 class SearchDB:
     def __init__(self, pinecone_api_key: str = None, voyage_api_key: str = None):
@@ -161,10 +164,83 @@ def save_results_to_json(results, output_file: str):
     
     print(f"Results saved to {output_file}")
     
+def generate_hypothetical_code(question: str):
+    
+    HyDE_SYSTEM_PROMPT = """
+    You are an expert software engineer specializing in knowledge retrieval systems. 
+    Your task is to generate hypothetical code that would be relevant to answering the given query, 
+    which will be used for embedding-based retrieval.
+    
+    Instructions:
+    1. Analyze the query carefully, focusing on key concepts and requirements.
+    2. Generate concise, idiomatic code that represents a potential solution to the query.
+    3. Include domain-specific terminology, method names, class names, and key concepts that would appear in ideal documentation for this topic.
+    4. Incorporate relevant imports, class definitions, and function signatures that would be expected in high-quality results.
+    5. Focus on capturing the essence of what would make a good search result, rather than a complete implementation.
+    6. Use common libraries and frameworks appropriate for the task.
+    7. The code should be detailed enough to generate meaningful embeddings but remain focused on the query's core concepts.
+    
+    Output format:
+    - Wrap your entire code snippet in <code> and </code> XML tags.
+    - Provide only the hypothetical code snippet without explanations.
+    - Include comments that contain key terminology and concepts relevant to the query.
+    - Ensure code is representative of what you would expect to find in a relevant document.
+    - Use proper formatting, indentation, and naming conventions.
+    """
+    
+    try:
+        
+        messages = [
+            {
+                "role": "system",
+                "content": HyDE_SYSTEM_PROMPT,
+            },
+            {
+                "role": "user",
+                "content": question,
+            }
+        ]
+        
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {Config.GROQ_API_KEY}",
+        }
+        
+        payload = {
+            "model": "llama-3.3-70b-versatile",
+            "messages": messages
+        }
+    
+        with httpx.Client(verify = False) as client:
+            response = client.post(groq_chat_url, headers=headers, json=payload)
+            response.raise_for_status()
+            response_data = response.json()["choices"][0]["message"]["content"]
+            return response_data
+        
+    except httpx.HTTPStatusError as e:
+        loggers["GroqLogger"].error(f"An HTTP error occurred while generating the response. {e.response.text}")
+        raise e
+        
+    except Exception as e:
+        loggers["GroqLogger"].error(f"An error occurred while generating the response.")
+        raise e
+    
 async def main():
     
-    question = ["""How does the LangfuseClient interact with the Langfuse service to create generation, span, and trace objects, 
-                and how does it handle metadata and cost details during operations such as vector database queries, embedding, and reranking?"""]
+    question = ["""I'm working with a microservice architecture and need to implement distributed tracing. Can you explain how to properly set up request context propagation between services with FastAPI middleware and show me the best practices for trace ID generation?"""]
+    
+    hypothetical_code =  generate_hypothetical_code(question = question[0])
+    
+    pattern = r'<code>(.*?)</code>'
+    
+    matches = re.findall(pattern, hypothetical_code, re.DOTALL)
+    if matches:
+        hypothetical_code = matches[0]
+    else:
+        raise ValueError("No code found in the response")
+    
+    print(f"hypothetical code: {hypothetical_code}")
+    print(f"=*="*20)
     
     obj = SearchDB()
     await obj.voyageai_dense_embedding(inputs = question)
