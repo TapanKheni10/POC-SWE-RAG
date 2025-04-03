@@ -3,15 +3,94 @@ from tree_sitter import Language, Parser
 import uuid
 import json
 import os
+import re
 from google import genai
 from google.genai import types
 import time
+import httpx
+from settings import Config
 from datetime import datetime, timedelta
 from logging_util import loggers
 
 PY_LANGUAGE = Language(tspython.language())
 parser = Parser(PY_LANGUAGE)
-GEMINI_API_KEY = "AIzaSyA79zHVtbEZ2AzaW8GlRsGoNCWjxnSDuVc"
+
+example_function_code = """
+async def execute(self, request_data: QueryEndPointRequest):
+        '''
+            Main execution function for processing query endpoint requests.
+            Breaks down the request handling into smaller, focused functions.
+        '''
+        
+        total_chunks = await self.index_repository.fetch_total_chunks(request_data.file_name)
+        if total_chunks < request_data.top_k:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Top K value cannot be greater than the total number of chunks: {total_chunks}",
+            )
+        
+        try:
+            model = self.embeddings_provider_mapping[request_data.embedding_model]
+        except KeyError:
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid embedding model. Please provide a valid model.",
+            )
+            
+        if request_data.dimension not in self.model_to_dimensions[request_data.embedding_model]:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid dimension. Please provide a valid dimension for embedding model: {request_data.embedding_model}",
+            )
+            
+        namespace_name, host = await self._get_namespace_and_host(request_data)
+        questions_with_ground_turth_chunks = await self.index_repository.fetch_questions(request_data.file_name)
+        
+        batches = [questions_with_ground_turth_chunks[i:min(i + self.embedding_batch, len(questions_with_ground_turth_chunks))]
+            for i in range(0, len(questions_with_ground_turth_chunks), self.embedding_batch)
+        ]
+        
+        embedding_tasks = [self._generate_batch_embeddings(batch, request_data) for batch in batches]
+        embeddings = await asyncio.gather(*embedding_tasks, return_exceptions=True)
+        
+        dense_embeddings = []
+        for x in embeddings:
+            dense_embeddings.extend(x)
+
+        loggers['evaluation'].info(f"Total number of questions: {len(questions_with_ground_turth_chunks)}")
+        loggers['evaluation'].info(f"Total number of dense embeddings: {len(dense_embeddings)}")
+
+        
+        s = time.time()
+        tasks = [self._process_question(embedding, question, namespace_name, host, request_data) for question, embedding in zip(questions_with_ground_turth_chunks, dense_embeddings)]
+        processed_questions = await asyncio.gather(*tasks)
+        
+        e = time.time()
+        loggers['evaluation'].info(f"Total Time to execute evaluation metrices: {e-s}")
+        if processed_questions:
+            loggers['evaluation'].info(f"processed_questions: {len(processed_questions)}")
+        
+        questions, evaluation_metrics_list = zip(*processed_questions)
+
+        s = time.time()
+        with ThreadPoolExecutor() as executor:
+            average_evaluation_metrics = executor.submit(
+                self.average_metrics,
+                evaluation_metrics_list,
+                request_data.top_k,
+            ).result()
+        e = time.time()
+        loggers['evaluation'].info(f"Total Time to execute evaluation metrices (Average): {e-s}")
+
+        os.makedirs("results", exist_ok=True)
+        with open("results/first_stage_retrieval.json", "w") as f:
+            json.dump(list(questions), f, indent=4)
+        
+        with open("results/first_stage_evaluation.json", "w") as f:
+            json.dump(average_evaluation_metrics, f, indent=4)
+            
+        return {"questions": questions, "evaluation_result" : average_evaluation_metrics}
+        """
 
 class RateLimiter:
     def __init__(self, rpm_limit=15):
@@ -32,7 +111,7 @@ class RateLimiter:
         
         self.request_timestamps.append(datetime.now())
         
-rate_limiter = RateLimiter(rpm_limit=15)
+rate_limiter = RateLimiter(rpm_limit=50)
 
 def create_cache_for_file(google_client, file_path, code_bytes):
     
@@ -79,16 +158,21 @@ def call_llm_service(code_bytes, function_code):
     rate_limiter.wait_if_needed()
     
     response = google_client.models.generate_content(
-        model = 'gemini-1.5-flash-002',
+        model = 'gemini-2.0-flash',
         contents = (f"""
             "<document> {code_bytes} </document> "
             Here is the chunk we want to situate within the whole document
 
             <chunk> {function_code} </chunk>
-
-            Please give a short succinct context to situate this chunk within
-            the overall document for the purposes of improving search retrieval
-            of the chunk. Answer only with the succinct context and nothing else.
+            
+            Here's one example of how to do this:
+            <chunk-example>
+            {example_function_code}
+            </chunk-example>
+            
+            <description-example>
+            This function is the main entry point of the QueryUseCase class that orchestrates the entire vector search evaluation process. It validates input parameters against model constraints, retrieves questions with ground truth data, processes them in batches to generate embeddings, performs search operations (hybrid or dense vector), calculates retrieval evaluation metrics (precision, recall, NDCG, etc.), aggregates the results, and saves the evaluation output to JSON files for analysis. The function manages concurrency through asyncio for efficient processing of multiple search queries.
+            </description-example>
             """
         ),
         config = types.GenerateContentConfig(
@@ -101,6 +185,73 @@ def call_llm_service(code_bytes, function_code):
     
     return response.text
 
+def call_anthropic_service(code_bytes, function_code):
+    
+    headers = {
+        "x-api-key": Config.ANTHROPIC_API_KEY,
+        "anthropic-version": Config.ANTHROPIC_VERSION,
+        "content-type": "application/json"
+    }
+    
+    payload = {
+        "model" : "claude-3-7-sonnet-20250219",
+        "system" : [
+            {
+                "type": "text",
+                "text": """
+                    You are a specialized code analysis assistant that helps developers understand how specific code chunks fit within larger codebases. Your task is to provide brief, precise context for code snippets to improve search retrieval.
+
+                    When presented with a full document and a specific chunk from that document, you will:
+                    1. Analyze the relationship between the chunk and the overall document
+                    2. Identify the chunk's purpose, functionality, and connections to other components
+                    3. Focus only on factual technical context, not opinions or suggestions
+                    4. Include key terminology that would help in search retrieval
+                    
+                    Never use phrases like "This code is" or "This function does" - simply state the context directly and succinctly. Prioritize clarity, precision, and search-relevance in your descriptions.
+                    Always wrap the description in <description> xml tags. Only provide the description, no other text.
+                """
+            },
+            {
+                "type": "text",
+                "text": f"<document> {code_bytes} </document>",
+                "cache_control" : {
+                    "type" : "ephemeral"
+                }
+            }
+        ],
+        "messages" : [
+            {
+                "role": "user",
+                "content" : f"""
+                    Here is the chunk we want to situate within the whole document
+
+                    <chunk> {function_code} </chunk>
+                """
+            }
+        ],
+        "max_tokens" : 1024,
+    }
+    
+    rate_limiter.wait_if_needed()
+    timeout = httpx.Timeout(connect=60.0, read=300.0, write=300.0, pool=60.0)
+    
+    try:
+        with httpx.Client(timeout = timeout) as client:
+            response = client.post(f"{Config.ANTHROPIC_BASE_URL}messages", headers=headers, json=payload)
+            response.raise_for_status()
+            response_data = response.json()
+            loggers["AnthropicLogger"].info(f"usage: {response_data['usage']}")
+            return response_data["content"][0]["text"]
+        
+    except httpx.HTTPStatusError as e:
+        loggers["AnthropicLogger"].error(f"httpx status error in anthropic api call : {str(e)} - {e.response.text}")
+        if e.response.status_code == 429:
+            print("Rate limit exceeded. Waiting for 60 seconds...")
+            time.sleep(70)
+            return call_anthropic_service(code_bytes, function_code)
+        else:
+            raise e
+    
 def extract_chunks(node, code_bytes, file_path, current_class=None, import_statements=None):
     if import_statements is None:
         import_statements = []
@@ -129,9 +280,17 @@ def extract_chunks(node, code_bytes, file_path, current_class=None, import_state
         
         start_line = node.start_point[0] + 1  
         end_line = node.end_point[0] + 1  
-        # chunk_description = call_llm_service(code_bytes, function_code)
+        chunk_description = call_anthropic_service(code_bytes, function_code)
         
-        # function_code += f"\n{chunk_description}"
+        pattern = r'<description>(.*?)</description>'
+        
+        matches = re.findall(pattern, chunk_description, re.DOTALL)
+        if matches:
+            chunk_description = matches[0]
+        else:
+            raise ValueError("No code found in the response")
+        
+        function_code += f"\n\n{chunk_description}"
         chunks.append({
             'code': function_code,
             'metadata': {
@@ -150,9 +309,17 @@ def extract_chunks(node, code_bytes, file_path, current_class=None, import_state
         combined_imports = '\n'.join(import_statements)
         start_line = node.start_point[0] + 1 
         end_line = start_line + len(import_statements) - 1
-        # chunk_description = call_llm_service(code_bytes, combined_imports)
+        chunk_description = call_anthropic_service(code_bytes, combined_imports)
         
-        # combined_imports += f"\n{chunk_description}"
+        pattern = r'<description>(.*?)</description>'
+        
+        matches = re.findall(pattern, chunk_description, re.DOTALL)
+        if matches:
+            chunk_description = matches[0]
+        else:
+            raise ValueError("No code found in the response")
+        
+        combined_imports += f"\n\n{chunk_description}"
         chunks.insert(0, {
             'code': combined_imports,
             'metadata': {
@@ -244,10 +411,10 @@ def process_directory(directory_path):
     
 if __name__ == '__main__':
     
-    directory_path = "/Users/tapankheni/Developer/POC-SWE-RAG/observe_traces"
+    directory_path = "/Users/tapankheni/Developer/POC-SWE-RAG/code_repo"
     all_chunks = process_directory(directory_path=directory_path)
     
     print(f"Extracted {len(all_chunks)} chunks from all files")
     
     formatted_chunks = format_chunks_for_json(all_chunks)
-    save_chunks_to_json(formatted_chunks, "final_chunks.json")
+    save_chunks_to_json(formatted_chunks, "../final_chunks_with_context_anthropic.json")

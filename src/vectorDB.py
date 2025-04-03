@@ -10,7 +10,7 @@ import asyncio
 import pickle
 import hashlib
 
-with open("bm25_encoder.pkl", "rb") as f:
+with open("../bm25_encoder.pkl", "rb") as f:
     bm25 = pickle.load(f)
 
 class VectorDB:
@@ -28,7 +28,7 @@ class VectorDB:
         self.embedding_url = "https://api.voyageai.com/v1/embeddings" 
         self.embeddings = []
         self.sparse_embeddings = []
-        self.embedding_cache_file = "embedding_cache_with_context.json"
+        self.embedding_cache_file = "../json/embedding_cache.json"
         self.timeout = httpx.Timeout(
             connect=60.0,
             read=300.0,
@@ -38,11 +38,11 @@ class VectorDB:
         self.pinecone_api_version = "2025-04"
         self.create_index_url = "https://api.pinecone.io/indexes"
         self.upsert_index_url = "https://{}/vectors/upsert"
-        self.index_metric = "dotproduct"
+        self.index_metric = "cosine"
         self.index_name = f"demo-{self.index_metric}"
         self.pinecone_client = Pinecone(api_key = self.pinecone_api_key)
         self.index_host = ""
-        self.namespace_name = f"demo-namespace-with-context"
+        self.namespace_name = f"demo-namespace-without-context"
         
     async def voyageai_dense_embedding(self, inputs: list, input_type: str = "document", use_cache: bool = True):
         
@@ -245,7 +245,7 @@ def load_json(file_path: str):
         
         
 async def main():
-    chunk_file_path = "final_chunks_with_context.json"
+    chunk_file_path = "../json/final_chunks.json"
     chunks = load_json(chunk_file_path)
     
     print(f"type of chunks: {type(chunks)}")
@@ -279,7 +279,7 @@ async def main():
     print(f"=*="*20)
     
     is_sparse_embedding_generated, total_sparse_embeddings = obj.is_sparse_embedding_generated()
-    print(f"is embedding generated: {is_sparse_embedding_generated}")
+    print(f"is sparse embedding generated: {is_sparse_embedding_generated}")
     print(f"=*="*20)
     print(f"total embeddings: {total_sparse_embeddings}")
     print(f"=*="*20)

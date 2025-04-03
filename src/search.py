@@ -6,7 +6,7 @@ from settings import Config
 from pinecone import Pinecone
 from logging_util import loggers
 
-with open("bm25_encoder.pkl", "rb") as f:
+with open("../bm25_encoder.pkl", "rb") as f:
     bm25 = pickle.load(f)
     
 groq_chat_url = "https://api.groq.com/openai/v1/chat/completions"
@@ -129,7 +129,52 @@ class SearchDB:
         except httpx.HTTPStatusError as e:
             loggers["PineconeLogger"].error(f"detail message of pinecone search failure: {e.response.text}")
             raise e
+        
+    async def pinecone_dense_search(
+        self,
+        top_k: int,
+        include_metadata: bool,
+        filter_dict: dict = None
+    ): 
+        
+        if not self.question_embedding:
+            raise ValueError("question embedding is empty")
+        
+        if not self.pinecone_client.has_index(name = self.index_name):
+            raise ValueError(f"index {self.index_name} does not exist")
+        
+        self.index_host = self.pinecone_client.describe_index(name = self.index_name).get("host")
+        
+        headers = {
+            "Api-Key": self.pinecone_api_key,
+            "Content-Type": "application/json",
+            "X-Pinecone-API-Version": self.pinecone_api_version,
+        }
+        
+        payload = {
+            "namespace": self.namespace_name,
+            "topK": top_k,
+            "vector": self.question_embedding[0],
+            "includeValues": False,
+            "includeMetadata": include_metadata,
+        }
+        
+        if filter_dict:
+            payload["filter"] = filter_dict
             
+        query_url = self.query_url.format(self.index_host)
+        
+        try:
+            async with httpx.AsyncClient(verify = False, timeout = self.timeout) as client:
+                response = await client.post(query_url, headers=headers, json=payload)
+                # loggers["PineconeLogger"].info(f"pinecone dense query result: {response.json()}")
+                loggers["PineconeLogger"].info(f"pinecone hybrid query read units: {response.json()['usage']}")
+                return response.json()
+            
+        except httpx.HTTPStatusError as e:
+            loggers["PineconeLogger"].error(f"detail message of pinecone search failure: {e.response.text}")
+            raise e
+        
     def hybrid_scale(self, dense, sparse, alpha: float):
 
         if alpha < 0 or alpha > 1:
@@ -227,20 +272,20 @@ def generate_hypothetical_code(question: str):
     
 async def main():
     
-    question = ["""I'm working with a microservice architecture and need to implement distributed tracing. Can you explain how to properly set up request context propagation between services with FastAPI middleware and show me the best practices for trace ID generation?"""]
+    question = ["""How does the search system determine which embedding provider to use for a given query, and what happens when a query is processed for the first time versus when it has been processed before?"""]
     
-    hypothetical_code =  generate_hypothetical_code(question = question[0])
+    # hypothetical_code =  generate_hypothetical_code(question = question[0])
     
-    pattern = r'<code>(.*?)</code>'
+    # pattern = r'<code>(.*?)</code>'
     
-    matches = re.findall(pattern, hypothetical_code, re.DOTALL)
-    if matches:
-        hypothetical_code = matches[0]
-    else:
-        raise ValueError("No code found in the response")
+    # matches = re.findall(pattern, hypothetical_code, re.DOTALL)
+    # if matches:
+    #     hypothetical_code = matches[0]
+    # else:
+    #     raise ValueError("No code found in the response")
     
-    print(f"hypothetical code: {hypothetical_code}")
-    print(f"=*="*20)
+    # print(f"hypothetical code: {hypothetical_code}")
+    # print(f"=*="*20)
     
     obj = SearchDB()
     await obj.voyageai_dense_embedding(inputs = question)
@@ -260,6 +305,12 @@ async def main():
         alpha = 0.3,
         include_metadata = True 
     )
+    
+    # results = await obj.pinecone_dense_search(
+    #     top_k = 5,
+    #     include_metadata = True 
+    # )
+    
     print(results.keys())
     print(f"=*="*20)
     

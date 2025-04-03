@@ -26,7 +26,7 @@ class JSONFormatter(logging.Formatter):
             
         return json.dumps(log_entry, ensure_ascii = False, indent=4)
 
-def setup_logger(name: str, log_file: str, log_dir: str = "struct_logs", level=logging.INFO) -> logging.Logger:
+def setup_logger(name: str, log_file: str, log_dir: str = "../struct_logs", level=logging.INFO) -> logging.Logger:
     """
     Sets up a logger with a specified name and log file.
     
@@ -57,4 +57,5 @@ loggers = {
     "VoyageLogger" : setup_logger("voyageai", "embedding_generation.log"),
     "PineconeLogger" : setup_logger("pinecone", "pinecone_usage.log"),
     "GroqLogger" : setup_logger("groq", "groq_usage.log"),
+    "AnthropicLogger" : setup_logger("anthropic", "anthropic_usage.log"),
 }
