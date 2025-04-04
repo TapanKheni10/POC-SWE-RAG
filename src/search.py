@@ -5,11 +5,17 @@ import pickle
 from settings import Config
 from pinecone import Pinecone
 from logging_util import loggers
+from typing import List
+from evaluation import EvaluationService
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 with open("../bm25_encoder.pkl", "rb") as f:
     bm25 = pickle.load(f)
     
 groq_chat_url = "https://api.groq.com/openai/v1/chat/completions"
+EMBEDDING_BATCH = 90
+TOP_K = 10
 
 class SearchDB:
     def __init__(self, pinecone_api_key: str = None, voyage_api_key: str = None):
@@ -40,8 +46,11 @@ class SearchDB:
         self.namespace_name = f"demo-namespace-with-context"
         self.index_host = ""
         self.pinecone_client = Pinecone(api_key = self.pinecone_api_key)
+        self.semaphore = asyncio.Semaphore(50)
         
-    async def voyageai_dense_embedding(self, inputs: list, input_type: str = "query"):
+    async def voyageai_dense_embedding(self, inputs: List[dict], input_type: str = "query"):
+        
+        questions = [q['question'] for q in inputs]
         
         headers = {
             "Authorization": f"Bearer {self.voyage_api_key}",
@@ -49,7 +58,7 @@ class SearchDB:
         }
         
         data = {
-            "input": inputs,
+            "input": questions,
             "model": self.embedding_model,
             "input_type": input_type,
             "output_dimension": self.dimension
@@ -62,8 +71,6 @@ class SearchDB:
                 response = response.json()
                 loggers["VoyageLogger"].info(f"voyage embedding usage: {response['usage']['total_tokens']} tokens")
                 embedding_list = [item["embedding"] for item in response["data"]]
-                self.question_embedding = embedding_list
-                
                 return embedding_list
             
         except httpx.HTTPStatusError as e:
@@ -72,108 +79,114 @@ class SearchDB:
         
     async def pinecone_hybrid_search(
         self,
-        top_k: int,
-        alpha: float,
-        include_metadata: bool,
+        dense_embedding: List[float],
+        sparse_embedding: dict,
+        top_k: int = TOP_K,
+        alpha: float = 0.5,
+        include_metadata: bool = True,
         filter_dict: dict = None
     ):
         
-        if not self.question_embedding:
-            raise ValueError("question embedding is empty")
-        if not self.question_sprase_embedding:
-            raise ValueError("question sparse embedding is empty")
-        
-        if not self.pinecone_client.has_index(name = self.index_name):
-            raise ValueError(f"index {self.index_name} does not exist")
-        
-        self.index_host = self.pinecone_client.describe_index(name = self.index_name).get("host")
+        async with self.semaphore:
+            
+            if not dense_embedding:
+                raise ValueError("question embedding is empty")
+            if not sparse_embedding:
+                raise ValueError("question sparse embedding is empty")
+            
+            if not self.pinecone_client.has_index(name = self.index_name):
+                raise ValueError(f"index {self.index_name} does not exist")
+            
+            self.index_host = self.pinecone_client.describe_index(name = self.index_name).get("host")
 
-        headers = {
-            "Api-Key": self.pinecone_api_key,
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "X-Pinecone-API-Version": self.pinecone_api_version,
-        }
-        
-        hdense, hsparse = self.hybrid_scale(
-            self.question_embedding[0], self.question_sprase_embedding[0], alpha
-        )
-        
-        payload = {
-            "includeValues": False,
-            "includeMetadata": include_metadata,
-            "vector": hdense, 
-            "sparseVector": {
-                "indices": hsparse.get(
-                    "indices"
-                ),  
-                "values": hsparse.get(
-                    "values"
-                ),  
-            },
-            "topK": top_k,
-            "namespace": self.namespace_name,
-        }
-        
-        if filter_dict:
-            payload["filter"] = filter_dict
+            headers = {
+                "Api-Key": self.pinecone_api_key,
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "X-Pinecone-API-Version": self.pinecone_api_version,
+            }
             
-        query_url = self.query_url.format(self.index_host)
-        
-        try:
-            async with httpx.AsyncClient(verify = False, timeout = self.timeout) as client:
-                response = await client.post(query_url, headers=headers, json=payload)
-                loggers["PineconeLogger"].info(f"pinecone hybrid query read units: {response.json()['usage']}")
-                return response.json()
+            hdense, hsparse = self.hybrid_scale(
+                dense_embedding, sparse_embedding, alpha
+            )
             
-        except httpx.HTTPStatusError as e:
-            loggers["PineconeLogger"].error(f"detail message of pinecone search failure: {e.response.text}")
-            raise e
+            payload = {
+                "includeValues": False,
+                "includeMetadata": include_metadata,
+                "vector": hdense, 
+                "sparseVector": {
+                    "indices": hsparse.get(
+                        "indices"
+                    ),  
+                    "values": hsparse.get(
+                        "values"
+                    ),  
+                },
+                "topK": top_k,
+                "namespace": self.namespace_name,
+            }
+            
+            if filter_dict:
+                payload["filter"] = filter_dict
+                
+            query_url = self.query_url.format(self.index_host)
+            
+            try:
+                async with httpx.AsyncClient(verify = False, timeout = self.timeout) as client:
+                    response = await client.post(query_url, headers=headers, json=payload)
+                    loggers["PineconeLogger"].info(f"pinecone hybrid query read units: {response.json()['usage']}")
+                    return response.json()
+                
+            except httpx.HTTPStatusError as e:
+                loggers["PineconeLogger"].error(f"detail message of pinecone search failure: {e.response.text}")
+                raise e
         
     async def pinecone_dense_search(
         self,
-        top_k: int,
-        include_metadata: bool,
+        dense_embedding: List[float],
+        top_k: int = TOP_K,
+        include_metadata: bool = True,
         filter_dict: dict = None
     ): 
         
-        if not self.question_embedding:
-            raise ValueError("question embedding is empty")
-        
-        if not self.pinecone_client.has_index(name = self.index_name):
-            raise ValueError(f"index {self.index_name} does not exist")
-        
-        self.index_host = self.pinecone_client.describe_index(name = self.index_name).get("host")
-        
-        headers = {
-            "Api-Key": self.pinecone_api_key,
-            "Content-Type": "application/json",
-            "X-Pinecone-API-Version": self.pinecone_api_version,
-        }
-        
-        payload = {
-            "namespace": self.namespace_name,
-            "topK": top_k,
-            "vector": self.question_embedding[0],
-            "includeValues": False,
-            "includeMetadata": include_metadata,
-        }
-        
-        if filter_dict:
-            payload["filter"] = filter_dict
+        async with self.semaphore:
+            if not dense_embedding:
+                raise ValueError("question embedding is empty")
             
-        query_url = self.query_url.format(self.index_host)
-        
-        try:
-            async with httpx.AsyncClient(verify = False, timeout = self.timeout) as client:
-                response = await client.post(query_url, headers=headers, json=payload)
-                # loggers["PineconeLogger"].info(f"pinecone dense query result: {response.json()}")
-                loggers["PineconeLogger"].info(f"pinecone hybrid query read units: {response.json()['usage']}")
-                return response.json()
+            if not self.pinecone_client.has_index(name = self.index_name):
+                raise ValueError(f"index {self.index_name} does not exist")
             
-        except httpx.HTTPStatusError as e:
-            loggers["PineconeLogger"].error(f"detail message of pinecone search failure: {e.response.text}")
-            raise e
+            self.index_host = self.pinecone_client.describe_index(name = self.index_name).get("host")
+            
+            headers = {
+                "Api-Key": self.pinecone_api_key,
+                "Content-Type": "application/json",
+                "X-Pinecone-API-Version": self.pinecone_api_version,
+            }
+            
+            payload = {
+                "namespace": self.namespace_name,
+                "topK": top_k,
+                "vector": dense_embedding,
+                "includeValues": False,
+                "includeMetadata": include_metadata,
+            }
+            
+            if filter_dict:
+                payload["filter"] = filter_dict
+                
+            query_url = self.query_url.format(self.index_host)
+            
+            try:
+                async with httpx.AsyncClient(verify = False, timeout = self.timeout) as client:
+                    response = await client.post(query_url, headers=headers, json=payload)
+                    # loggers["PineconeLogger"].info(f"pinecone dense query result: {response.json()}")
+                    loggers["PineconeLogger"].info(f"pinecone hybrid query read units: {response.json()['usage']}")
+                    return response.json()
+                
+            except httpx.HTTPStatusError as e:
+                loggers["PineconeLogger"].error(f"detail message of pinecone search failure: {e.response.text}")
+                raise e
         
     def hybrid_scale(self, dense, sparse, alpha: float):
 
@@ -190,7 +203,6 @@ class SearchDB:
     def pinecone_sparse_embedding(self, inputs: list):
         try:
             sparse_vector = bm25.encode_documents(inputs)
-            self.question_sprase_embedding = sparse_vector
             return sparse_vector
         
         except Exception as e:
@@ -209,6 +221,86 @@ def save_results_to_json(results, output_file: str):
     
     print(f"Results saved to {output_file}")
     
+def calculate_evaluation_metrics(relevant_ids, ground_truth_ids, top_k=TOP_K):
+    """Calculate various evaluation metrics for the search results."""
+
+    try:
+        return {
+            "precision_at_k": EvaluationService.precision_at_k(
+                retrieved_ids=relevant_ids,
+                ground_truth_ids=ground_truth_ids,
+                max_k=top_k,
+            ),
+            "recall_at_k": EvaluationService.recall_at_k(
+                retrieved_ids=relevant_ids,
+                ground_truth_ids=ground_truth_ids,
+                max_k=top_k,
+            ),
+            "ndcg_at_k": EvaluationService.normalized_discounted_cumulative_gain_at_k(
+                retrieved_ids=relevant_ids, ground_truth_ids=ground_truth_ids, k=top_k
+            )
+        }
+        
+    except Exception as e:
+        loggers['evaluation'].error(f"Error calculating evaluation metrics: {e}")
+        raise e
+
+def average_metrics(metrics_list, top_k):
+    
+        sum_dict = {
+        "precision_at_k": {},
+        "recall_at_k": {},
+        "ndcg_at_k": {}
+        }
+
+        for k in range(1, top_k + 1):
+            sum_dict["precision_at_k"][f"Precision@{k}"] = 0.0
+            sum_dict["recall_at_k"][f"Recall@{k}"] = 0.0
+            sum_dict["ndcg_at_k"][f"NDCG@{k}"] = 0.0
+        
+        avg_dict = sum_dict.copy()
+        
+        count_dict = {
+            "precision_at_k": 0.0,
+            "recall_at_k": 0.0,
+            "ndcg_at_k": 0.0,
+        }
+        
+        for metric_dict in metrics_list:
+            for key, value in metric_dict.items():
+                if isinstance(value, dict):
+                    
+                    for sub_key, sub_value in value.items():
+                        sum_dict[key][sub_key] += sub_value
+                    count_dict[key] += 1
+                elif isinstance(value, (int, float)):
+                    
+                    sum_dict[key] += value
+                    count_dict[key] += 1
+        
+        for key, value in sum_dict.items():
+            if isinstance(value, dict): 
+                avg_dict[key] = {sub_key: sub_value / count_dict[key] 
+                                for sub_key, sub_value in value.items()}
+            else:
+                avg_dict[key] = value / count_dict[key]
+        
+        return avg_dict
+    
+async def generate_evaluation_metrics(relevant_ids, ground_truth_ids, top_k=TOP_K):
+    """Calculate various evaluation metrics for the search results."""
+    
+    async with asyncio.Semaphore(50):
+        with ThreadPoolExecutor() as executor:
+            evaluation_metrics = executor.submit(
+                calculate_evaluation_metrics,
+                relevant_ids,
+                ground_truth_ids,
+                top_k
+            ).result()
+            
+        return evaluation_metrics
+            
 def generate_hypothetical_code(question: str):
     
     HyDE_SYSTEM_PROMPT = """
@@ -272,7 +364,9 @@ def generate_hypothetical_code(question: str):
     
 async def main():
     
-    question = ["""How does the search system determine which embedding provider to use for a given query, and what happens when a query is processed for the first time versus when it has been processed before?"""]
+    with open("../questions_data/questions.json", "r") as f:
+        questions = json.load(f)
+        
     
     # hypothetical_code =  generate_hypothetical_code(question = question[0])
     
@@ -287,49 +381,102 @@ async def main():
     # print(f"hypothetical code: {hypothetical_code}")
     # print(f"=*="*20)
     
-    obj = SearchDB()
-    await obj.voyageai_dense_embedding(inputs = question)
-    obj.pinecone_sparse_embedding(inputs = question)
-    print('=*='*20)
+    questions_batches = [questions[i: min(i + EMBEDDING_BATCH, len(questions))]
+        for i in range(0, len(questions), EMBEDDING_BATCH)
+    ]
     
-    is_embedding_generated = obj.is_question_embedding_generated()
+    obj = SearchDB()
+        
+    embedding_task = [obj.voyageai_dense_embedding(inputs = questions) for questions in questions_batches]
+    
+    embeddings_batches = await asyncio.gather(*embedding_task, return_exceptions = True)
+    dense_embeddings = []
+    for batch in embeddings_batches:
+        if isinstance(batch, Exception):
+            loggers["VoyageLogger"].error(f"Error in embedding batch: {batch}")
+            continue
+        dense_embeddings.extend(batch)
+        
+    loggers["MainLogger"].info(f"total number of questions: {len(questions)}")
+    loggers["MainLogger"].info(f"total number of embeddings: {len(dense_embeddings)}")
+    
+    is_embedding_generated = True if dense_embeddings else False
     print(f"is dense embedding generated: {is_embedding_generated}")
     print(f"=*="*20)
-    
-    is_sparse_embedding_generated = obj.is_question_sparse_embedding_generated()
+
+    sparse_embeddings = []
+    for question in questions:
+        sparse_embeddings.append(obj.pinecone_sparse_embedding(inputs = question['question']))
+
+    is_sparse_embedding_generated = True if sparse_embeddings else False
     print(f"is sparse embedding generated: {is_sparse_embedding_generated}")
     print(f"=*="*20)
+
+    search_tasks = [obj.pinecone_hybrid_search(dense_embedding = dense_embedding, sparse_embedding = sparse_embedding) 
+        for dense_embedding, sparse_embedding in zip(dense_embeddings, sparse_embeddings)
+    ]
     
-    results = await obj.pinecone_hybrid_search(
-        top_k = 5,
-        alpha = 0.3,
-        include_metadata = True 
-    )
-    
-    # results = await obj.pinecone_dense_search(
-    #     top_k = 5,
-    #     include_metadata = True 
-    # )
-    
-    print(results.keys())
+    print(f"total number of search tasks: {len(search_tasks)}")
     print(f"=*="*20)
     
-    retrieved = []
-    for match in results["matches"]:
-        retrieved.append({
-            "score": match["score"],
-            "content": match["metadata"]["content"],
-            "start_line": match["metadata"]["start_line"],
-            "end_line": match["metadata"]["end_line"],
-            "file_name": match["metadata"]["file_name"],
-            "file_path": match["metadata"]["file_path"],
+    # search_tasks = [obj.pinecone_dense_search(dense_embedding = dense_embedding)
+    #     for dense_embedding in dense_embeddings
+    # ]
+    
+    # print(f"total number of search tasks: {len(search_tasks)}")
+    # print(f"=*="*20)
+    
+    search_results = await asyncio.gather(*search_tasks, return_exceptions = True)
+    
+    print(f"total number of search results: {len(search_results)}")
+    print(f"=*="*20)
+    
+    formated_search_results = []
+    retrieved_ids = []
+    
+    for i, result in enumerate(search_results):
+        retrieved = []
+        ids = []
+        for match in result["matches"]:
+            retrieved.append({
+                "id": match["id"],
+                "score": match["score"],
+                "content": match["metadata"]["content"]
+            })
+            ids.append(match["id"])
+            
+        formated_search_results.append({
+            "question": questions[i]['question'],
+            "ground_truth": questions[i]['chunk_ids'],
+            "retrieved": retrieved
         })
+        retrieved_ids.append(ids)
         
-        print(f"file_name: {match['metadata']['file_name']}")
-        print(f"{match['metadata']['content']}")
-        print(f"=*="*20)
-        
-    # save_results_to_json(retrieved, "retrieved_results_with_context.json")
+    print(f"total number of formated search results: {len(formated_search_results)}")
+    print(f"=*="*20)
+    
+    save_results_to_json(formated_search_results, "../results/first_stage/hybrid_with_context.json")
+    
+    evaluation_tasks = [generate_evaluation_metrics(relevant_ids = retrieved, ground_truth_ids = question["chunk_ids"])
+        for retrieved, question in zip(retrieved_ids, questions)
+    ]
+    
+    print(f"total number of evaluation tasks: {len(evaluation_tasks)}")
+    print(f"=*="*20)
+    
+    evaluation_metrices = await asyncio.gather(*evaluation_tasks, return_exceptions = True)
+    
+    print(f"total number of evaluation metrics: {len(evaluation_metrices)}")
+    print(f"=*="*20)
+    
+    with ThreadPoolExecutor() as executor:
+        average_evaluation_metrics = executor.submit(
+            average_metrics,
+            evaluation_metrices,
+            TOP_K
+        ).result()
+    
+    save_results_to_json(average_evaluation_metrics, "../evaluation/first_stage/hybrid_with_context.json")
     
 if __name__ == "__main__":
     import asyncio

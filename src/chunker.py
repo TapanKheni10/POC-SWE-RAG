@@ -3,6 +3,7 @@ from tree_sitter import Language, Parser
 import uuid
 import json
 import os
+import hashlib
 import re
 from google import genai
 from google.genai import types
@@ -290,7 +291,6 @@ def extract_chunks(node, code_bytes, file_path, current_class=None, import_state
         else:
             raise ValueError("No code found in the response")
         
-        function_code += f"\n\n{chunk_description}"
         chunks.append({
             'code': function_code,
             'metadata': {
@@ -299,7 +299,8 @@ def extract_chunks(node, code_bytes, file_path, current_class=None, import_state
                 'file_path': file_path,
                 'start_line': start_line,
                 'end_line': end_line
-            }
+            },
+            "description": chunk_description
         })
     else:
         for child in node.children:
@@ -319,7 +320,6 @@ def extract_chunks(node, code_bytes, file_path, current_class=None, import_state
         else:
             raise ValueError("No code found in the response")
         
-        combined_imports += f"\n\n{chunk_description}"
         chunks.insert(0, {
             'code': combined_imports,
             'metadata': {
@@ -328,7 +328,8 @@ def extract_chunks(node, code_bytes, file_path, current_class=None, import_state
                 'file_path': file_path,
                 'start_line': start_line,
                 'end_line': end_line
-            }
+            },
+            "description": chunk_description
         })
 
     return chunks
@@ -350,12 +351,12 @@ def chunk_codebase(file_path):
 def format_chunks_for_json(chunks):
     formatted_chunks = []
     for chunk in chunks:
-        code = chunk['code']
+        code = chunk['code'] + f"\n\n{chunk['description']}"
         metadata = chunk['metadata']
         file_path = metadata['file_path']
         file_name = os.path.basename(file_path)
         formatted_chunk = {
-            "id": str(uuid.uuid4()),
+            "id": hashlib.sha256(chunk['code'].encode('utf-8')).hexdigest(),
             "file_path": file_path,
             "file_name": file_name,
             "start_line": metadata['start_line'],
@@ -417,4 +418,4 @@ if __name__ == '__main__':
     print(f"Extracted {len(all_chunks)} chunks from all files")
     
     formatted_chunks = format_chunks_for_json(all_chunks)
-    save_chunks_to_json(formatted_chunks, "../final_chunks_with_context_anthropic.json")
+    save_chunks_to_json(formatted_chunks, "../cache_data/final_chunks_with_context.json")

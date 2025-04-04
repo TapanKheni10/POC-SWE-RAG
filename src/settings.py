@@ -13,5 +13,6 @@ class Settings(BaseSettings):
     ANTHROPIC_VERSION: str
     ANTHROPIC_BASE_URL: str
     ANTHROPIC_API_KEY: str
+    COHERE_API_KEY: str
 
 Config = Settings()

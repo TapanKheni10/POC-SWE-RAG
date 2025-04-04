@@ -28,7 +28,7 @@ class VectorDB:
         self.embedding_url = "https://api.voyageai.com/v1/embeddings" 
         self.embeddings = []
         self.sparse_embeddings = []
-        self.embedding_cache_file = "../json/embedding_cache.json"
+        self.embedding_cache_file = "../cache_data/embedding_cache.json"
         self.timeout = httpx.Timeout(
             connect=60.0,
             read=300.0,
@@ -75,7 +75,7 @@ class VectorDB:
                 
             #     return embedding_list
             pass
-            
+        
         except httpx.HTTPStatusError as e:
             loggers["VoyageLogger"].error(f"detail message of voyage embed failure: {e.response.text}")
             raise e
@@ -138,10 +138,10 @@ class VectorDB:
                 "id": chunk["id"],
                 "values": self.embeddings[i],
                 "metadata": metadata,
-                "sparse_values": {
-                    "indices" : self.sparse_embeddings[i]["indices"],
-                    "values" : self.sparse_embeddings[i]["values"]
-                }
+                # "sparse_values": {
+                #     "indices" : self.sparse_embeddings[i]["indices"],
+                #     "values" : self.sparse_embeddings[i]["values"]
+                # }
                 
             }
             results.append(result)
@@ -245,7 +245,7 @@ def load_json(file_path: str):
         
         
 async def main():
-    chunk_file_path = "../json/final_chunks.json"
+    chunk_file_path = "../cache_data/final_chunks.json"
     chunks = load_json(chunk_file_path)
     
     print(f"type of chunks: {type(chunks)}")

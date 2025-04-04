@@ -58,4 +58,8 @@ loggers = {
     "PineconeLogger" : setup_logger("pinecone", "pinecone_usage.log"),
     "GroqLogger" : setup_logger("groq", "groq_usage.log"),
     "AnthropicLogger" : setup_logger("anthropic", "anthropic_usage.log"),
+    "QuestionLogger" : setup_logger("question", "question_generation.log"),
+    "MainLogger" : setup_logger("main", "main.log"),
+    "EvaluationLogger" : setup_logger("evaluation", "evaluation.log"),
+    "CohereLogger" : setup_logger("cohere", "cohere_usage.log"),
 }

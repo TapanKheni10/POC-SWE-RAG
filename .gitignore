@@ -9,3 +9,6 @@ __pycache__
 .env
 experiments/
 code_repo/
+results/
+questions_data/
+evaluation/
