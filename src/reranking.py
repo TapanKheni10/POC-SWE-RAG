@@ -22,10 +22,10 @@ class ReRanker:
     
         self.model = "rerank-v3.5"
         self.cohere_rerank_url = "https://api.cohere.com/v2/rerank"
-        self.input_path = "../results/first_stage/hybrid_without_context.json"
+        self.input_path = "../results/first_stage/dense_with_context.json"
         self.question_path = "../questions_data/questions.json"
-        self.result_output_path = "../results/second_stage/hybrid_without_context.json"
-        self.evaluation_output_path = "../evaluation/second_stage/hybrid_without_context.json"
+        self.result_output_path = "../results/second_stage/dense_with_context.json"
+        self.evaluation_output_path = "../evaluation/second_stage/dense_with_context.json"
         self.semaphores = asyncio.Semaphore(15)
         self.timeout = httpx.Timeout(connect=60.0, read=120.0, write=120.0, pool=60.0)
         

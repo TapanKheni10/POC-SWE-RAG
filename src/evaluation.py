@@ -24,16 +24,17 @@ class EvaluationService:
             if k <= 0:
                 raise ValueError("Parameter 'k' should be a positive integer.")
 
+            relevant = [_id for _id in retrieved_ids[:k]]
             relevance_scores = [
-                1 if doc in ground_truth_ids else 0 for doc in retrieved_ids
+                1 if doc in ground_truth_ids else 0 for doc in relevant
             ]
 
             if not relevance_scores:
                 return 0.0
 
-            dcg_at_k = relevance_scores[0] if relevance_scores else 0
-            for i in range(1, len(relevance_scores)):
-                dcg_at_k += relevance_scores[i] / math.log2(i + 1)
+            dcg_at_k = sum(
+                relevance_scores[i] / math.log2(i + 2) for i in range(len(relevance_scores))
+            )
 
             return dcg_at_k
 
@@ -62,11 +63,9 @@ class EvaluationService:
             if not ideal_relevance_scores:
                 return 0.0
 
-            idcg_at_k = (
-                ideal_relevance_scores[0] if ideal_relevance_scores else 0
+            idcg_at_k = sum(
+                ideal_relevance_scores[i] / math.log2(i + 2) for i in range(len(ideal_relevance_scores))
             )
-            for i in range(1, len(ideal_relevance_scores)):
-                idcg_at_k += ideal_relevance_scores[i] / math.log2(i + 1)
 
             return idcg_at_k
 
