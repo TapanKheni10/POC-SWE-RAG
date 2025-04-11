@@ -1,0 +1,1891 @@
+[
+    {
+        "question": "How does the application initialize session state variables for pipeline management?",
+        "chunk_ids": [
+            "1dad10623d6a652f09141a3ac5cf41fcd5be08bc1cd9c79ee4159952962c7783"
+        ]
+    },
+    {
+        "question": "What functionality is provided to reset search results in the application?",
+        "chunk_ids": [
+            "73a4ecce0b7b287dbb64cdf2f712599bc3f1315a70417df3a7eff70470860dad"
+        ]
+    },
+    {
+        "question": "What imports are required for this Streamlit application?",
+        "chunk_ids": [
+            "518d657108f393569259b411567b9b09f195336a00e66766a9c32ebe5ca1360a"
+        ]
+    },
+    {
+        "question": "How does the application track state across multiple search pipelines?",
+        "chunk_ids": [
+            "1dad10623d6a652f09141a3ac5cf41fcd5be08bc1cd9c79ee4159952962c7783",
+            "73a4ecce0b7b287dbb64cdf2f712599bc3f1315a70417df3a7eff70470860dad"
+        ]
+    },
+    {
+        "question": "How to track the status of search operations in a pipeline?",
+        "chunk_ids": [
+            "ae5af9ec84f9cdef5fa46e171f06eb0a8ff3622cd39c63597b331862cbf15ac2"
+        ]
+    },
+    {
+        "question": "What functions manage the reranking state in a pipeline workflow?",
+        "chunk_ids": [
+            "e17502054a6f7247dcf06f6b167f49bd3ebc713f4d1c6378e78d2a1fce012b63",
+            "087f226b74564a10be38c181afadc82dc9bbc4bdd114d75c017c08ebab01f888"
+        ]
+    },
+    {
+        "question": "How does the application track different pipeline states using session management?",
+        "chunk_ids": [
+            "e17502054a6f7247dcf06f6b167f49bd3ebc713f4d1c6378e78d2a1fce012b63",
+            "ae5af9ec84f9cdef5fa46e171f06eb0a8ff3622cd39c63597b331862cbf15ac2",
+            "087f226b74564a10be38c181afadc82dc9bbc4bdd114d75c017c08ebab01f888"
+        ]
+    },
+    {
+        "question": "How do I store search and reranking results in a session?",
+        "chunk_ids": [
+            "8d03b16b865d2a75b8673205359ec37e8bdf959b0c0a7dd555dffb083eee043c",
+            "db302d394fcc619e2f69c51f9ef9211baea7a381b81772a4782e6f40749bed23"
+        ]
+    },
+    {
+        "question": "What methods are used to update pipeline state in Streamlit?",
+        "chunk_ids": [
+            "aeecaae9c0d071470a64763e9d318e25df72d0e4dc5600041bdebf561dd37abb",
+            "8d03b16b865d2a75b8673205359ec37e8bdf959b0c0a7dd555dffb083eee043c",
+            "db302d394fcc619e2f69c51f9ef9211baea7a381b81772a4782e6f40749bed23"
+        ]
+    },
+    {
+        "question": "How can I track the status of an index creation for a pipeline?",
+        "chunk_ids": [
+            "aeecaae9c0d071470a64763e9d318e25df72d0e4dc5600041bdebf561dd37abb"
+        ]
+    },
+    {
+        "question": "How are random questions and their answers stored in the session state?",
+        "chunk_ids": [
+            "9d350c5ab0d7b2b9ed634fe09145bae18374fbe4bc724d12463f33fb6679230e",
+            "93f57c716868e393d8e97e99c67087737a3803a42c9b823d6c3aa06922df27c8"
+        ]
+    },
+    {
+        "question": "What embedding models are available for selection?",
+        "chunk_ids": [
+            "018e35f55d7ecc3062ad9c724edd2fe7a8b7f709ca382259b34e9c3d75cd4433"
+        ]
+    },
+    {
+        "question": "How does the system manage pipeline-specific state for questions and results?",
+        "chunk_ids": [
+            "9d350c5ab0d7b2b9ed634fe09145bae18374fbe4bc724d12463f33fb6679230e",
+            "93f57c716868e393d8e97e99c67087737a3803a42c9b823d6c3aa06922df27c8"
+        ]
+    },
+    {
+        "question": "What embedding models are available specifically for code?",
+        "chunk_ids": [
+            "e37b4e7ed54c71756eacd38fff0ae5d8f3c83dc5737ced1c7c14bf789791668c"
+        ]
+    },
+    {
+        "question": "How can I retrieve available reranking models?",
+        "chunk_ids": [
+            "036f05172b616a5e4745dfa86c0f1ed6c1edf10b6966984c5d3c4cc5e1d4b9e0"
+        ]
+    },
+    {
+        "question": "How do I get dimensions for a specific embedding model?",
+        "chunk_ids": [
+            "dcf5ee8b07146d1094c5b103b4422df213818e0e8fc545aae7f355cbdaa19c49"
+        ]
+    },
+    {
+        "question": "Which models support multiple dimension options?",
+        "chunk_ids": [
+            "dcf5ee8b07146d1094c5b103b4422df213818e0e8fc545aae7f355cbdaa19c49"
+        ]
+    },
+    {
+        "question": "What embedding and dimension options are available for code processing?",
+        "chunk_ids": [
+            "e37b4e7ed54c71756eacd38fff0ae5d8f3c83dc5737ced1c7c14bf789791668c",
+            "dcf5ee8b07146d1094c5b103b4422df213818e0e8fc545aae7f355cbdaa19c49"
+        ]
+    },
+    {
+        "question": "How does the tabbed interface display search and reranking results?",
+        "chunk_ids": [
+            "d404c5711618dbd547b83ed6f4ff39dd418f42bb1182707660a19164c9a9bfe9"
+        ]
+    },
+    {
+        "question": "What happens when no search or reranking results are available to display?",
+        "chunk_ids": [
+            "d1c8767b6b01a0be93fed6b2905e551689e274ddb807e1d4ce1cb079976d4b01",
+            "e4efd93e660cb666be7ef3202a5e73a7d7f4f457af1ab87ed98bbb4c9dec4b24"
+        ]
+    },
+    {
+        "question": "How are search and reranking results downloaded by the user?",
+        "chunk_ids": [
+            "d1c8767b6b01a0be93fed6b2905e551689e274ddb807e1d4ce1cb079976d4b01",
+            "e4efd93e660cb666be7ef3202a5e73a7d7f4f457af1ab87ed98bbb4c9dec4b24"
+        ]
+    },
+    {
+        "question": "What conditions determine whether search or reranking results are shown?",
+        "chunk_ids": [
+            "d404c5711618dbd547b83ed6f4ff39dd418f42bb1182707660a19164c9a9bfe9"
+        ]
+    },
+    {
+        "question": "How does the application display random questions with their associated ground truth chunks?",
+        "chunk_ids": [
+            "ccf44c9d0c31f66894a6dca9650c65f13f695c71f5f4039555da48a78b6dcf8f"
+        ]
+    },
+    {
+        "question": "What's the process for displaying search results from a random query?",
+        "chunk_ids": [
+            "1dcfc0497b3b7859093f2fc670e3e1d694db7f2e235b5131ebbba3add96ed93a"
+        ]
+    },
+    {
+        "question": "How are API requests handled to retrieve user configurations?",
+        "chunk_ids": [
+            "4bddb8c6c98ba7808c33a2a20978fc3f595bc62ae713f2fc275e1389dfd475bc"
+        ]
+    },
+    {
+        "question": "How do the UI components differ between displaying random questions and search results?",
+        "chunk_ids": [
+            "ccf44c9d0c31f66894a6dca9650c65f13f695c71f5f4039555da48a78b6dcf8f",
+            "1dcfc0497b3b7859093f2fc670e3e1d694db7f2e235b5131ebbba3add96ed93a"
+        ]
+    },
+    {
+        "question": "How do you upload files to the backend service?",
+        "chunk_ids": [
+            "3b0c75f99a229b28e524ad9cf0fad2918ebeb8eb25da789855260600f55d715c"
+        ]
+    },
+    {
+        "question": "What parameters are required for creating a search index?",
+        "chunk_ids": [
+            "486bbe0a504bf5fefe08384ce662286beb9f7d54b42cf34636cdeba1995606f2"
+        ]
+    },
+    {
+        "question": "How does the API handle hybrid search queries versus standard searches?",
+        "chunk_ids": [
+            "48cb9443f4068b8bb01d67a86af75087e5b242e2d07e5498dd2e81ad8d7164f1"
+        ]
+    },
+    {
+        "question": "How do these API client methods handle errors and exceptions?",
+        "chunk_ids": [
+            "3b0c75f99a229b28e524ad9cf0fad2918ebeb8eb25da789855260600f55d715c",
+            "486bbe0a504bf5fefe08384ce662286beb9f7d54b42cf34636cdeba1995606f2",
+            "48cb9443f4068b8bb01d67a86af75087e5b242e2d07e5498dd2e81ad8d7164f1"
+        ]
+    },
+    {
+        "question": "How are API errors handled in asynchronous client requests?",
+        "chunk_ids": [
+            "bc14d9f84c064721afe6fecad62543059fa01b9b5c9cb701079c32b93ff37f09",
+            "18ff2c78cf10780b2f2fdb42d35c1a45a30c75696e11394e9694b0f10df47b7b",
+            "62d51e8c823aad5c1b2b612ba1a5444b14730db71317160d4f641278622f7795"
+        ]
+    },
+    {
+        "question": "What parameters are needed for hybrid search queries?",
+        "chunk_ids": [
+            "62d51e8c823aad5c1b2b612ba1a5444b14730db71317160d4f641278622f7795"
+        ]
+    },
+    {
+        "question": "How are successful API responses processed and returned?",
+        "chunk_ids": [
+            "bc14d9f84c064721afe6fecad62543059fa01b9b5c9cb701079c32b93ff37f09",
+            "18ff2c78cf10780b2f2fdb42d35c1a45a30c75696e11394e9694b0f10df47b7b",
+            "62d51e8c823aad5c1b2b612ba1a5444b14730db71317160d4f641278622f7795"
+        ]
+    },
+    {
+        "question": "What's the return format for the API client methods?",
+        "chunk_ids": [
+            "bc14d9f84c064721afe6fecad62543059fa01b9b5c9cb701079c32b93ff37f09",
+            "18ff2c78cf10780b2f2fdb42d35c1a45a30c75696e11394e9694b0f10df47b7b",
+            "62d51e8c823aad5c1b2b612ba1a5444b14730db71317160d4f641278622f7795"
+        ]
+    },
+    {
+        "question": "How does the UI handle index creation and data upserting for search functionality?",
+        "chunk_ids": [
+            "5fd622d4cbca96d3757c8e55fbc37bf619e49cf9c60db6862958083e3fa0c043"
+        ]
+    },
+    {
+        "question": "What parameters are required for performing a search operation in the application?",
+        "chunk_ids": [
+            "1057142f8dadace7117139201b1417ee9ead8cbb13a488cd607b3306eb4475a0"
+        ]
+    },
+    {
+        "question": "How does the reranking process work with search results?",
+        "chunk_ids": [
+            "8e65613add2a76570af15b22e4f10651ee53d351425385e626ee2a83703554e8"
+        ]
+    },
+    {
+        "question": "How are embedding models selected differently for code versus other file types?",
+        "chunk_ids": [
+            "5fd622d4cbca96d3757c8e55fbc37bf619e49cf9c60db6862958083e3fa0c043"
+        ]
+    },
+    {
+        "question": "What is the complete search pipeline from initial query to reranked results?",
+        "chunk_ids": [
+            "1057142f8dadace7117139201b1417ee9ead8cbb13a488cd607b3306eb4475a0",
+            "8e65613add2a76570af15b22e4f10651ee53d351425385e626ee2a83703554e8"
+        ]
+    },
+    {
+        "question": "How are search and reranking results managed in the session state?",
+        "chunk_ids": [
+            "1057142f8dadace7117139201b1417ee9ead8cbb13a488cd607b3306eb4475a0",
+            "8e65613add2a76570af15b22e4f10651ee53d351425385e626ee2a83703554e8"
+        ]
+    },
+    {
+        "question": "How does the RAG pipeline handle random question generation?",
+        "chunk_ids": [
+            "f2a6ecdece855fe9ecf77544fa74d8518fd88a6a8c1e27923913453fa247175d",
+            "1ca7fa9b0a6c7ef2eda4ccd02ca34ca747a71b24e8e3f29ee2f5108816afae5b"
+        ]
+    },
+    {
+        "question": "What parameters are needed for custom query searches?",
+        "chunk_ids": [
+            "deb382d3237a82731491631bcaa87ac79b90128ae19f8a31ab32af8878500523"
+        ]
+    },
+    {
+        "question": "How are search results stored and displayed in the pipeline?",
+        "chunk_ids": [
+            "deb382d3237a82731491631bcaa87ac79b90128ae19f8a31ab32af8878500523",
+            "1ca7fa9b0a6c7ef2eda4ccd02ca34ca747a71b24e8e3f29ee2f5108816afae5b"
+        ]
+    },
+    {
+        "question": "What is the execution flow of the RAG pipeline?",
+        "chunk_ids": [
+            "1ca7fa9b0a6c7ef2eda4ccd02ca34ca747a71b24e8e3f29ee2f5108816afae5b"
+        ]
+    },
+    {
+        "question": "How does the application handle file uploads and process the response?",
+        "chunk_ids": [
+            "fad0e38a1518eaffb4da8924c92fb7535414dc9a41a547ccc8f438ad911a7212"
+        ]
+    },
+    {
+        "question": "What is the main structure and purpose of this RAG Pipeline Comparison Tool?",
+        "chunk_ids": [
+            "a185fde68b5427f0256d60519904fcc4a2b37c3c61c818561a1726ab3fbb3261"
+        ]
+    },
+    {
+        "question": "How are API routes organized in this FastAPI application?",
+        "chunk_ids": [
+            "e9d1417c3d6a02ae7f07c4dec66d86858849da21faf7c2d1c98337416c3b60e5"
+        ]
+    },
+    {
+        "question": "How does the application compare multiple retrieval pipelines side by side?",
+        "chunk_ids": [
+            "a185fde68b5427f0256d60519904fcc4a2b37c3c61c818561a1726ab3fbb3261",
+            "fad0e38a1518eaffb4da8924c92fb7535414dc9a41a547ccc8f438ad911a7212"
+        ]
+    },
+    {
+        "question": "How is database connection managed in a FastAPI application?",
+        "chunk_ids": [
+            "f1dd41fa44a3aff7239563f46ae9c9f7e7828e6f7c825bef00ab12bef3082c58"
+        ]
+    },
+    {
+        "question": "What is the purpose of the lifespan function in FastAPI?",
+        "chunk_ids": [
+            "f1dd41fa44a3aff7239563f46ae9c9f7e7828e6f7c825bef00ab12bef3082c58"
+        ]
+    },
+    {
+        "question": "What does the root endpoint return in the API?",
+        "chunk_ids": [
+            "db1543b5da92dedc27c7670ce4dd1ab7699065cbcb3f814a17dbf8c628313972"
+        ]
+    },
+    {
+        "question": "What dependencies are imported for handling query operations in FastAPI?",
+        "chunk_ids": [
+            "1432ef6aa59492de4edf5970dd8a533f4397ce738bc44a5ffbbb8758bfdfe083"
+        ]
+    },
+    {
+        "question": "How are API responses structured in the application?",
+        "chunk_ids": [
+            "cf2aa73894882018e37850b305f4938c8952a2dcd58f537f4b3e3d368eabbb3e",
+            "67d5a5721ec1a272d7df4f360faedd5ac18a36854324a5b96725967d1ab87046"
+        ]
+    },
+    {
+        "question": "What patterns are used for dependency injection in FastAPI endpoints?",
+        "chunk_ids": [
+            "cf2aa73894882018e37850b305f4938c8952a2dcd58f537f4b3e3d368eabbb3e",
+            "67d5a5721ec1a272d7df4f360faedd5ac18a36854324a5b96725967d1ab87046"
+        ]
+    },
+    {
+        "question": "How are asynchronous API endpoints implemented in this application?",
+        "chunk_ids": [
+            "cf2aa73894882018e37850b305f4938c8952a2dcd58f537f4b3e3d368eabbb3e",
+            "67d5a5721ec1a272d7df4f360faedd5ac18a36854324a5b96725967d1ab87046"
+        ]
+    },
+    {
+        "question": "What FastAPI components are imported for API route creation?",
+        "chunk_ids": [
+            "4530c2f53987221843de3bc45c345e7bb5de6dc80d40b368ef586d7594bfbbb4"
+        ]
+    },
+    {
+        "question": "How do I create a random question endpoint in FastAPI?",
+        "chunk_ids": [
+            "a7b474d8417ec27adb73705b1c1a3ede40957d55e28511ae970c188aded47f98",
+            "434420bbba938cc92e8c69d674d6c634a6fce1624f489c68e67db4fddee60505"
+        ]
+    },
+    {
+        "question": "What's the structure of a successful API response in this application?",
+        "chunk_ids": [
+            "a7b474d8417ec27adb73705b1c1a3ede40957d55e28511ae970c188aded47f98"
+        ]
+    },
+    {
+        "question": "How are controllers integrated with FastAPI dependency injection?",
+        "chunk_ids": [
+            "a7b474d8417ec27adb73705b1c1a3ede40957d55e28511ae970c188aded47f98",
+            "434420bbba938cc92e8c69d674d6c634a6fce1624f489c68e67db4fddee60505",
+            "4143aa5d609c26199b51af5fe4b22530151f305f9dcda9a86c7ae847c2964e8d"
+        ]
+    },
+    {
+        "question": "How is the response format structured for API endpoints?",
+        "chunk_ids": [
+            "3ad54080bdac8d559055daf67b4147d81d51fd0eda398a9f548054b25449f6a6",
+            "e9a5af5c47e00db05926efdf91c6f9c5f45077a8f65264587cc8370653f21887"
+        ]
+    },
+    {
+        "question": "What are the common dependencies used in FastAPI endpoint functions?",
+        "chunk_ids": [
+            "3ad54080bdac8d559055daf67b4147d81d51fd0eda398a9f548054b25449f6a6",
+            "e9a5af5c47e00db05926efdf91c6f9c5f45077a8f65264587cc8370653f21887",
+            "74bb0477a82c57a67c762acb064b14b53b7e4eea1c5d66cc8ccfe3da89771d3a"
+        ]
+    },
+    {
+        "question": "How are controller methods used to process API requests?",
+        "chunk_ids": [
+            "3ad54080bdac8d559055daf67b4147d81d51fd0eda398a9f548054b25449f6a6",
+            "e9a5af5c47e00db05926efdf91c6f9c5f45077a8f65264587cc8370653f21887"
+        ]
+    },
+    {
+        "question": "What imports are needed for a FastAPI endpoint with status responses?",
+        "chunk_ids": [
+            "74bb0477a82c57a67c762acb064b14b53b7e4eea1c5d66cc8ccfe3da89771d3a"
+        ]
+    },
+    {
+        "question": "How does the API handle file uploads in a FastAPI application?",
+        "chunk_ids": [
+            "de8501eee0b63f3c61c79447f9abd94f7c1c686384ca4f8b7dae2dbf403e060b"
+        ]
+    },
+    {
+        "question": "What's the structure of a successful response when upserting an index?",
+        "chunk_ids": [
+            "7bc30b159aa18165682968b657ff138de2b3c5e0e0bd97682efe39aa413e3cb6"
+        ]
+    },
+    {
+        "question": "How are dependencies injected in FastAPI route handlers?",
+        "chunk_ids": [
+            "7bc30b159aa18165682968b657ff138de2b3c5e0e0bd97682efe39aa413e3cb6",
+            "8ab55feaabcc01f59e6f8923216e2c7f95775125375b32129a7c3f92e2a6c445"
+        ]
+    },
+    {
+        "question": "What components are needed to create API routes in this application?",
+        "chunk_ids": [
+            "8ab55feaabcc01f59e6f8923216e2c7f95775125375b32129a7c3f92e2a6c445",
+            "de8501eee0b63f3c61c79447f9abd94f7c1c686384ca4f8b7dae2dbf403e060b"
+        ]
+    },
+    {
+        "question": "How does the FastAPI endpoint handle file uploads?",
+        "chunk_ids": [
+            "875226f3e7eb48b7fecbb298035bcdda0507e96640d900b9b6d99b2d8be62ed8"
+        ]
+    },
+    {
+        "question": "What collections are initialized in the MongoDB database?",
+        "chunk_ids": [
+            "b3f88c227f4a75ff0a14a836a24b2652b3cb364597b3e9b72c4437e33325c4ff"
+        ]
+    },
+    {
+        "question": "How is MongoDB connection established in the application?",
+        "chunk_ids": [
+            "345f48f7d51fe8682a5033c39e57c477d68afb947e67b47a5ce0019ba9237914",
+            "b3f88c227f4a75ff0a14a836a24b2652b3cb364597b3e9b72c4437e33325c4ff"
+        ]
+    },
+    {
+        "question": "What's the response format after uploading a file?",
+        "chunk_ids": [
+            "875226f3e7eb48b7fecbb298035bcdda0507e96640d900b9b6d99b2d8be62ed8"
+        ]
+    },
+    {
+        "question": "How does the MongoDB connection handle connection pooling and timeouts?",
+        "chunk_ids": [
+            "1f18e25dff987db907be909f34ded28cb73177db867d3ff4eb9d86324a4f55a3"
+        ]
+    },
+    {
+        "question": "What happens if required collections don't exist in the database?",
+        "chunk_ids": [
+            "13becea9128bf7fa05556dcad26343d9ba21c345f64dcc75d5dbb109ca746b79"
+        ]
+    },
+    {
+        "question": "How does the database connection process ensure availability before use?",
+        "chunk_ids": [
+            "1f18e25dff987db907be909f34ded28cb73177db867d3ff4eb9d86324a4f55a3",
+            "6fb45cf05887e0eb1cfc6daf486c11203b5d52e653cf37580cd6a873f73c6642"
+        ]
+    },
+    {
+        "question": "What is the initialization workflow for database operations in this system?",
+        "chunk_ids": [
+            "1f18e25dff987db907be909f34ded28cb73177db867d3ff4eb9d86324a4f55a3",
+            "13becea9128bf7fa05556dcad26343d9ba21c345f64dcc75d5dbb109ca746b79",
+            "6fb45cf05887e0eb1cfc6daf486c11203b5d52e653cf37580cd6a873f73c6642"
+        ]
+    },
+    {
+        "question": "How does the system clean up resources when disconnecting from a database?",
+        "chunk_ids": [
+            "41203c1418fb66992d29bd26d94bccfa1b6743b88f092dfd81c142879aeee0b8"
+        ]
+    },
+    {
+        "question": "What configuration management approach is being used in this application?",
+        "chunk_ids": [
+            "22b6c6a3e77fc69106fa80c11fccea98a58062af33139f0a8fd186e66624186e"
+        ]
+    },
+    {
+        "question": "Which modules are imported for handling data and time operations?",
+        "chunk_ids": [
+            "c5434f4351467a90be709a31c58a785de5df82bdcce1530fafe56332caf3808f"
+        ]
+    },
+    {
+        "question": "What utilities does the application use for data processing and logging?",
+        "chunk_ids": [
+            "c5434f4351467a90be709a31c58a785de5df82bdcce1530fafe56332caf3808f"
+        ]
+    },
+    {
+        "question": "How does the system format log entries for structured logging?",
+        "chunk_ids": [
+            "61ac248d713f099d32df2824017c87b7fa79ed2ad69bd4cb8897deae385e7009"
+        ]
+    },
+    {
+        "question": "How is the logger configured to handle JSON formatted logs?",
+        "chunk_ids": [
+            "c800a648287d8f57c2b09ea7470c99242d5cc920d0dfb1ccd96c0abd12d955aa",
+            "61ac248d713f099d32df2824017c87b7fa79ed2ad69bd4cb8897deae385e7009"
+        ]
+    },
+    {
+        "question": "What dependencies are imported for the logging system?",
+        "chunk_ids": [
+            "28cf4662f57f1264fdf55232551c9bcb43c3ea114ddd298f52af767ee4da41b5",
+            "c800a648287d8f57c2b09ea7470c99242d5cc920d0dfb1ccd96c0abd12d955aa"
+        ]
+    },
+    {
+        "question": "How does the system handle JSON messages in logs?",
+        "chunk_ids": [
+            "61ac248d713f099d32df2824017c87b7fa79ed2ad69bd4cb8897deae385e7009"
+        ]
+    },
+    {
+        "question": "How does the code handle API timeouts and connection settings?",
+        "chunk_ids": [
+            "61331708401cbe92d9fb9a56152bc4a8c7e220b53b1e404b340aee8568c307e3"
+        ]
+    },
+    {
+        "question": "What error handling patterns are implemented for API requests?",
+        "chunk_ids": [
+            "d7ce31b9a94cf4ff7e58654474988b621105c88a9aa9bf56b234f89f26a35820"
+        ]
+    },
+    {
+        "question": "How are OpenAI API requests configured and executed?",
+        "chunk_ids": [
+            "d7ce31b9a94cf4ff7e58654474988b621105c88a9aa9bf56b234f89f26a35820",
+            "61331708401cbe92d9fb9a56152bc4a8c7e220b53b1e404b340aee8568c307e3"
+        ]
+    },
+    {
+        "question": "What is the process for generating questions from text chunks?",
+        "chunk_ids": [
+            "dbdc3d4ed0328e7328fa502d1e11f095efe51b1436bc9b59f518a79bb781779a",
+            "d7ce31b9a94cf4ff7e58654474988b621105c88a9aa9bf56b234f89f26a35820"
+        ]
+    },
+    {
+        "question": "How does the system generate questions from multiple text chunks?",
+        "chunk_ids": [
+            "9f2bc1f157cf2226810163abd92326d066610bd0af1c62ce2bbc5c59c0293d2e"
+        ]
+    },
+    {
+        "question": "What is the error handling mechanism for multi-chunk question generation?",
+        "chunk_ids": [
+            "9f2bc1f157cf2226810163abd92326d066610bd0af1c62ce2bbc5c59c0293d2e",
+            "bb369c6b3a2f370a944d8f4c1a2279be0faea181c76c8dfeb68023e092b59f49"
+        ]
+    },
+    {
+        "question": "How does the system parse and validate JSON responses from question generation?",
+        "chunk_ids": [
+            "bb369c6b3a2f370a944d8f4c1a2279be0faea181c76c8dfeb68023e092b59f49"
+        ]
+    },
+    {
+        "question": "How does the system handle API errors and exceptions?",
+        "chunk_ids": [
+            "ca755c034146d993d36a5ec14de24baa11a14d10cc9bd3ba93a7123a7bb1c011"
+        ]
+    },
+    {
+        "question": "What decorator pattern is used for consistent error handling?",
+        "chunk_ids": [
+            "ca755c034146d993d36a5ec14de24baa11a14d10cc9bd3ba93a7123a7bb1c011"
+        ]
+    },
+    {
+        "question": "How are database collections initialized in the class constructor?",
+        "chunk_ids": [
+            "5a117d2f8a976f5c2e32deabe70ca52cafbc4a1706580db4c153de2ba8f1eda5",
+            "aeb2e3692e43bc63f9d17aae01e6b6055dcf191cc8af6b4af3d6d02368d13ae2"
+        ]
+    },
+    {
+        "question": "What database helper is used for accessing collections?",
+        "chunk_ids": [
+            "5a117d2f8a976f5c2e32deabe70ca52cafbc4a1706580db4c153de2ba8f1eda5",
+            "aeb2e3692e43bc63f9d17aae01e6b6055dcf191cc8af6b4af3d6d02368d13ae2"
+        ]
+    },
+    {
+        "question": "How do I retrieve ground truth data for a given query?",
+        "chunk_ids": [
+            "50385903f1dbe4c532cba64da0ee59db60e2037e6ba67a69ce61cdb98b3f5260"
+        ]
+    },
+    {
+        "question": "How can I fetch questions along with their ground truth chunk IDs?",
+        "chunk_ids": [
+            "80068762ae52bd55e32a0880bf5928b92a277866270829b0eb2650a314e676cb"
+        ]
+    },
+    {
+        "question": "How do I retrieve namespace information for an index with specific embedding model?",
+        "chunk_ids": [
+            "98e487721b31d06e495e6ee9bf0ece834791b23333aa448bd5df03272f75188e"
+        ]
+    },
+    {
+        "question": "What's the process for finding document data based on query criteria in MongoDB?",
+        "chunk_ids": [
+            "50385903f1dbe4c532cba64da0ee59db60e2037e6ba67a69ce61cdb98b3f5260",
+            "98e487721b31d06e495e6ee9bf0ece834791b23333aa448bd5df03272f75188e",
+            "80068762ae52bd55e32a0880bf5928b92a277866270829b0eb2650a314e676cb"
+        ]
+    },
+    {
+        "question": "How can I retrieve the total number of chunks for a specific file?",
+        "chunk_ids": [
+            "b23cee46e7119423a11b6ff85d278cc55b1d4b2d3d464e4d976985ac17d648da"
+        ]
+    },
+    {
+        "question": "How does the system retrieve a user's previous index configurations?",
+        "chunk_ids": [
+            "217a018a3898a21e5d348b6f24d5514ea9d32682580d7af893214fe47dc3831a"
+        ]
+    },
+    {
+        "question": "What error handling is implemented in the database fetch operations?",
+        "chunk_ids": [
+            "b23cee46e7119423a11b6ff85d278cc55b1d4b2d3d464e4d976985ac17d648da",
+            "217a018a3898a21e5d348b6f24d5514ea9d32682580d7af893214fe47dc3831a"
+        ]
+    },
+    {
+        "question": "Which database helper and exception handling tools are imported for these operations?",
+        "chunk_ids": [
+            "eac311fb1cf82a2dd89ea793d4f8bcbe2411509f9de9f7f29e3e668dd45a90ce"
+        ]
+    },
+    {
+        "question": "How can I delete all documents from a MongoDB collection?",
+        "chunk_ids": [
+            "bc3e08e71d45dc8ae3d0e28b0e80b1e8a796aef4fc64a098741abf715013ecf7"
+        ]
+    },
+    {
+        "question": "What methods are available for inserting and clearing MongoDB documents?",
+        "chunk_ids": [
+            "bc3e08e71d45dc8ae3d0e28b0e80b1e8a796aef4fc64a098741abf715013ecf7",
+            "8d3f9557eb1598718709f2e0db3f737f63d7cee4ec29cce72f0d2472acaae3f8"
+        ]
+    },
+    {
+        "question": "How is the database collection initialized in this class?",
+        "chunk_ids": [
+            "9947e068f0dfffd8a75e31f13244af3f962b3afb67846f3ccd962f304b9dae42"
+        ]
+    },
+    {
+        "question": "How does the method check if a file exists in a database?",
+        "chunk_ids": [
+            "449a6c679673cebec485888ee9d0b7ce263a0edb53f12df3bf22e9a874fbdf2a"
+        ]
+    },
+    {
+        "question": "How are texts retrieved from a database using document IDs?",
+        "chunk_ids": [
+            "eacdb958e77a8e5571eab0255196919ffbc9ecb1d02365f446995fdbba94c023"
+        ]
+    },
+    {
+        "question": "What error handling occurs when fetching texts by IDs fails?",
+        "chunk_ids": [
+            "eacdb958e77a8e5571eab0255196919ffbc9ecb1d02365f446995fdbba94c023",
+            "0a72a96da08961a5f86a4a8d0e8af91665ee38e6d0eb204051c1ca0ac539df90"
+        ]
+    },
+    {
+        "question": "How are MongoDB queries constructed for file operations?",
+        "chunk_ids": [
+            "449a6c679673cebec485888ee9d0b7ce263a0edb53f12df3bf22e9a874fbdf2a",
+            "eacdb958e77a8e5571eab0255196919ffbc9ecb1d02365f446995fdbba94c023"
+        ]
+    },
+    {
+        "question": "How does the system handle query embeddings storage and updates in MongoDB?",
+        "chunk_ids": [
+            "9788cadbb82ed2b96c7ff05f0edc0264156145bf6259c6aa1ca7026fd18e04f2"
+        ]
+    },
+    {
+        "question": "What's the process for retrieving specific question embeddings from the database?",
+        "chunk_ids": [
+            "e14702bca8894f4b7474f6b08ab8c9bc0b4c62b7db69bb8f12b06952fb71c769"
+        ]
+    },
+    {
+        "question": "How does the system handle document identification and upsert operations?",
+        "chunk_ids": [
+            "9788cadbb82ed2b96c7ff05f0edc0264156145bf6259c6aa1ca7026fd18e04f2"
+        ]
+    },
+    {
+        "question": "How are embeddings retrieved based on filename, model, dimension and question text?",
+        "chunk_ids": [
+            "e14702bca8894f4b7474f6b08ab8c9bc0b4c62b7db69bb8f12b06952fb71c769"
+        ]
+    },
+    {
+        "question": "How can I find a matching index in a database based on specific criteria?",
+        "chunk_ids": [
+            "7f254f46a44a24028da3254fdf6b5cdf45225c88d254438afa1d7d591f689ba2"
+        ]
+    },
+    {
+        "question": "What query structure is used to search for documents with specific namespace attributes?",
+        "chunk_ids": [
+            "7f254f46a44a24028da3254fdf6b5cdf45225c88d254438afa1d7d591f689ba2"
+        ]
+    },
+    {
+        "question": "How is the database collection initialized and accessed for index operations?",
+        "chunk_ids": [
+            "5597637039335252acd30fd1964400becef61f575c801012483168c98c7b6336",
+            "7f254f46a44a24028da3254fdf6b5cdf45225c88d254438afa1d7d591f689ba2"
+        ]
+    },
+    {
+        "question": "What dependencies are required for implementing index upsert functionality?",
+        "chunk_ids": [
+            "5e567e9ee6a28d9c045ae968ecd05deb77a1a55bc6dc27127edca68cf9d49fd7",
+            "5597637039335252acd30fd1964400becef61f575c801012483168c98c7b6336"
+        ]
+    },
+    {
+        "question": "How does the code handle adding a new namespace to an existing index?",
+        "chunk_ids": [
+            "67f16c19574c5e374615674673031f39e804c104aee55f96279c73845ee26908"
+        ]
+    },
+    {
+        "question": "What function finds a document based on dimension and similarity metric?",
+        "chunk_ids": [
+            "4a010d5a87505ad3ae18bba488dec975169665c31babecde825d29b150a3dd0e"
+        ]
+    },
+    {
+        "question": "How does the system check if a namespace already exists in an index?",
+        "chunk_ids": [
+            "67f16c19574c5e374615674673031f39e804c104aee55f96279c73845ee26908"
+        ]
+    },
+    {
+        "question": "What error handling is implemented in the database operations?",
+        "chunk_ids": [
+            "67f16c19574c5e374615674673031f39e804c104aee55f96279c73845ee26908",
+            "f863062b8b492f80d233f66498a3a12daaba1e5874dacfeb34d4f40e18c79c67"
+        ]
+    },
+    {
+        "question": "How does the database helper initialize its collection?",
+        "chunk_ids": [
+            "287d481a94e36162eb3e7896a1596eb0cb1cf8e729641b836c269abfed750744"
+        ]
+    },
+    {
+        "question": "What method clears all documents from the database collection?",
+        "chunk_ids": [
+            "bc3e08e71d45dc8ae3d0e28b0e80b1e8a796aef4fc64a098741abf715013ecf7"
+        ]
+    },
+    {
+        "question": "How are new documents added to the database with error handling?",
+        "chunk_ids": [
+            "3fdce67eb0138b592a5fd40bbc976a03ddc0ed44f8d28c6802832c415960c8bd"
+        ]
+    },
+    {
+        "question": "What database operations are available in this MongoDB helper class?",
+        "chunk_ids": [
+            "287d481a94e36162eb3e7896a1596eb0cb1cf8e729641b836c269abfed750744",
+            "bc3e08e71d45dc8ae3d0e28b0e80b1e8a796aef4fc64a098741abf715013ecf7",
+            "3fdce67eb0138b592a5fd40bbc976a03ddc0ed44f8d28c6802832c415960c8bd"
+        ]
+    },
+    {
+        "question": "How do you check if a specific file already exists in the database?",
+        "chunk_ids": [
+            "449a6c679673cebec485888ee9d0b7ce263a0edb53f12df3bf22e9a874fbdf2a"
+        ]
+    },
+    {
+        "question": "How does the system select a random question from a ground truth file?",
+        "chunk_ids": [
+            "feebb6d8c3e1012a39d3d444cc246951477e6b3cfe245d7b2f4ce6680abfff9e"
+        ]
+    },
+    {
+        "question": "What dependencies are used for data validation in this application?",
+        "chunk_ids": [
+            "08a5c595e45806677c5f2d4a66c0a762d163c6087b297a8bd1321081cbfda657"
+        ]
+    },
+    {
+        "question": "How does the application handle database queries and error states?",
+        "chunk_ids": [
+            "449a6c679673cebec485888ee9d0b7ce263a0edb53f12df3bf22e9a874fbdf2a",
+            "feebb6d8c3e1012a39d3d444cc246951477e6b3cfe245d7b2f4ce6680abfff9e"
+        ]
+    },
+    {
+        "question": "How does the system validate if a similarity metric is allowed?",
+        "chunk_ids": [
+            "ee1902d07122db88d482ac3d527d235cd9022d243f5f18126d08f8139aab736e"
+        ]
+    },
+    {
+        "question": "What happens when an invalid dimension is provided for an embedding model?",
+        "chunk_ids": [
+            "58d413409d18c787c614f11c4b036235cc7544d4f5932306b73e8fde83c9ae0a"
+        ]
+    },
+    {
+        "question": "How are validation functions implemented in this Pydantic model?",
+        "chunk_ids": [
+            "ee1902d07122db88d482ac3d527d235cd9022d243f5f18126d08f8139aab736e",
+            "58d413409d18c787c614f11c4b036235cc7544d4f5932306b73e8fde83c9ae0a",
+            "1b8767c42bc7a4987bbdc351c1b22f410f66953a60c5ee16c918a3161d1b588f"
+        ]
+    },
+    {
+        "question": "How are model-specific configuration parameters validated?",
+        "chunk_ids": [
+            "58d413409d18c787c614f11c4b036235cc7544d4f5932306b73e8fde83c9ae0a",
+            "ee1902d07122db88d482ac3d527d235cd9022d243f5f18126d08f8139aab736e"
+        ]
+    },
+    {
+        "question": "How are typing and pydantic modules being imported in different code files?",
+        "chunk_ids": [
+            "a9242e301d6db955c7392da7d529413d3ba61fa3669d315f2665cf658bda7539",
+            "db667a4f477a7ad3006e6bf102ac492105adf82087f0e4d0a56f29829d321506",
+            "b67ecc977ae23fa3e29267f28de9bfc1ac132e0f2f8a16c132e140bac817c964"
+        ]
+    },
+    {
+        "question": "What are the different ways BaseModel is imported across the codebase?",
+        "chunk_ids": [
+            "a9242e301d6db955c7392da7d529413d3ba61fa3669d315f2665cf658bda7539",
+            "db667a4f477a7ad3006e6bf102ac492105adf82087f0e4d0a56f29829d321506",
+            "b67ecc977ae23fa3e29267f28de9bfc1ac132e0f2f8a16c132e140bac817c964"
+        ]
+    },
+    {
+        "question": "Which Python modules are consistently used for data validation?",
+        "chunk_ids": [
+            "a9242e301d6db955c7392da7d529413d3ba61fa3669d315f2665cf658bda7539",
+            "db667a4f477a7ad3006e6bf102ac492105adf82087f0e4d0a56f29829d321506",
+            "b67ecc977ae23fa3e29267f28de9bfc1ac132e0f2f8a16c132e140bac817c964"
+        ]
+    },
+    {
+        "question": "How do I convert an object to a dictionary with filename and embedding model attributes?",
+        "chunk_ids": [
+            "00932efa2bd3bf67e10c42a4e05b63473b643138b9aab36b285ffe4d657fb7f2"
+        ]
+    },
+    {
+        "question": "What initialization parameters are required for this class?",
+        "chunk_ids": [
+            "64d73a13407e63293b23f971c60692347fa4417376579d63f0749caf2e607022"
+        ]
+    },
+    {
+        "question": "How is a class initialized and then converted to a dictionary representation?",
+        "chunk_ids": [
+            "64d73a13407e63293b23f971c60692347fa4417376579d63f0749caf2e607022",
+            "00932efa2bd3bf67e10c42a4e05b63473b643138b9aab36b285ffe4d657fb7f2"
+        ]
+    },
+    {
+        "question": "What imports are used in this Python module?",
+        "chunk_ids": [
+            "d9943cd3d7c4aec42c2ff0ee9bde6dfb60ea3a1f0cba2352c821d4e5b460f203"
+        ]
+    },
+    {
+        "question": "How is a namespace initialized in this codebase?",
+        "chunk_ids": [
+            "6725b3ef0a74dfd0b5ba72e56918ea73a0f95193dbda5797b32a6d22f34fdf57"
+        ]
+    },
+    {
+        "question": "How does the code convert a namespace object to a dictionary format?",
+        "chunk_ids": [
+            "487c29de2cbd10dccf62b8fd562485dd16ae0938ad953af496cac8b9d5056319"
+        ]
+    },
+    {
+        "question": "What parameters are required when initializing a vector index?",
+        "chunk_ids": [
+            "4c31e80443ece5bb4104a006a904c30ee799cd00471f51441ceecba99b14cc8f"
+        ]
+    },
+    {
+        "question": "How does the codebase handle timestamp tracking for database objects?",
+        "chunk_ids": [
+            "4c31e80443ece5bb4104a006a904c30ee799cd00471f51441ceecba99b14cc8f"
+        ]
+    },
+    {
+        "question": "How do you add a namespace to an index in the application?",
+        "chunk_ids": [
+            "2cffb1c688f878b73a5b7b177f6507505df023d6291164209dc9d7ff568bac8c"
+        ]
+    },
+    {
+        "question": "How does the system serialize an index object to a dictionary format?",
+        "chunk_ids": [
+            "e03e8d2a0e9b7191bb20ed0ab21032e66b2a01fb99d8acaa833a01c95ac02c14"
+        ]
+    },
+    {
+        "question": "How are datetime fields handled when converting between dictionary and object formats?",
+        "chunk_ids": [
+            "e03e8d2a0e9b7191bb20ed0ab21032e66b2a01fb99d8acaa833a01c95ac02c14",
+            "3d1e03aff7ea9652ad4d10ec5c28b1edb2e787be86673b6a64dff15dfe8035fa"
+        ]
+    },
+    {
+        "question": "What's the process for reconstructing an index object from dictionary data?",
+        "chunk_ids": [
+            "3d1e03aff7ea9652ad4d10ec5c28b1edb2e787be86673b6a64dff15dfe8035fa"
+        ]
+    },
+    {
+        "question": "How is document initialization handled with metadata in this class?",
+        "chunk_ids": [
+            "9611409b33bb05d58cce34b86a1fcb0d5df731447e4c8cd26b27ee5d16e0b34d"
+        ]
+    },
+    {
+        "question": "What validations are performed when adding a question with its embedding?",
+        "chunk_ids": [
+            "5411e8b330257a8459849f5e8614549c46d11ad3677b722464253813f9fbcac9"
+        ]
+    },
+    {
+        "question": "How does the system handle timestamp creation for document tracking?",
+        "chunk_ids": [
+            "9611409b33bb05d58cce34b86a1fcb0d5df731447e4c8cd26b27ee5d16e0b34d"
+        ]
+    },
+    {
+        "question": "What preprocessing is applied to embeddings before storing them?",
+        "chunk_ids": [
+            "5411e8b330257a8459849f5e8614549c46d11ad3677b722464253813f9fbcac9"
+        ]
+    },
+    {
+        "question": "How is the to_dict method converting MongoDB document to a dictionary?",
+        "chunk_ids": [
+            "6d582958d228183e37cad89e84aa1470874b79a36fc4150d94d4df55db74b91f"
+        ]
+    },
+    {
+        "question": "What dependencies are imported for the FastAPI implementation?",
+        "chunk_ids": [
+            "73a64dd37ed48c68a5d75b8e43ff710365ee8de704375a30275a7822dcda00f6"
+        ]
+    },
+    {
+        "question": "How is dependency injection implemented in the class constructor?",
+        "chunk_ids": [
+            "c23b716b7a1a6cc7676d91e7b9a27c37a46fd9f776b778dc0fec645ca42cc471"
+        ]
+    },
+    {
+        "question": "How is the FastAPI controller integrated with the usecase layer?",
+        "chunk_ids": [
+            "c23b716b7a1a6cc7676d91e7b9a27c37a46fd9f776b778dc0fec645ca42cc471",
+            "73a64dd37ed48c68a5d75b8e43ff710365ee8de704375a30275a7822dcda00f6"
+        ]
+    },
+    {
+        "question": "How does the upload_files method function in the application?",
+        "chunk_ids": [
+            "2d9c204f18903f23a0eba529fcad46ebf9c6f2a7957fc15c14ab1e8ed226cc64"
+        ]
+    },
+    {
+        "question": "What dependencies are imported for the reranking functionality?",
+        "chunk_ids": [
+            "77b0d66f8cf14e3c7b9be8d01fc33c142ff6913a5315c169754e0f2343c7720f"
+        ]
+    },
+    {
+        "question": "How is dependency injection implemented for the reranking usecase?",
+        "chunk_ids": [
+            "c59af88f57b65cd22fa472b55843c687a12b4ed02e206d081a1fba51dcf41b2c"
+        ]
+    },
+    {
+        "question": "How does the application architecture handle usecase injection and execution?",
+        "chunk_ids": [
+            "2d9c204f18903f23a0eba529fcad46ebf9c6f2a7957fc15c14ab1e8ed226cc64",
+            "c59af88f57b65cd22fa472b55843c687a12b4ed02e206d081a1fba51dcf41b2c"
+        ]
+    },
+    {
+        "question": "How are usecases injected into controllers using FastAPI's dependency injection?",
+        "chunk_ids": [
+            "d8b24b91ae41b8acf56bf92f613c6629edf2057abd0a78259304939c7b051d20",
+            "8ddaed12e25b9e9dd687f37b8fcdb49f6b10a98399be2dbf373a1c46dc02f114"
+        ]
+    },
+    {
+        "question": "What pattern is used for delegating API requests to business logic components?",
+        "chunk_ids": [
+            "ea093031aff6eaedd0314c8f2c7f5954f2d0b10894442a040e4d5c74dc943616",
+            "8ddaed12e25b9e9dd687f37b8fcdb49f6b10a98399be2dbf373a1c46dc02f114"
+        ]
+    },
+    {
+        "question": "How does the application handle asynchronous operations in its controller methods?",
+        "chunk_ids": [
+            "ea093031aff6eaedd0314c8f2c7f5954f2d0b10894442a040e4d5c74dc943616"
+        ]
+    },
+    {
+        "question": "How does the controller handle upsert operations for indexing?",
+        "chunk_ids": [
+            "54a5044b28f2d7b0dd04b88c263e1809f15df954df73725e09b16c36735509d0"
+        ]
+    },
+    {
+        "question": "What dependency injection pattern is used in the FastAPI controller?",
+        "chunk_ids": [
+            "4e53947b94a62c61201f030b221c19c7aa47d7541490501934af324817593797",
+            "39e1ebfac7ec362d52d0cf26a5d9f3f127b9f2dfef40e050d880713c3853f882"
+        ]
+    },
+    {
+        "question": "How are usecases initialized and utilized in the controller methods?",
+        "chunk_ids": [
+            "54a5044b28f2d7b0dd04b88c263e1809f15df954df73725e09b16c36735509d0",
+            "39e1ebfac7ec362d52d0cf26a5d9f3f127b9f2dfef40e050d880713c3853f882"
+        ]
+    },
+    {
+        "question": "How does the application process a query request?",
+        "chunk_ids": [
+            "d6352d94e0eff0a90ab8e919d71ae2fe5b607cbdc23e5de59ee842d030a72d9c"
+        ]
+    },
+    {
+        "question": "How is dependency injection implemented in this code?",
+        "chunk_ids": [
+            "f0e95975e311c498cc65f82101247771ddc8184dcc14eb2da0607d3b549f9740",
+            "a545b946337c18bdcab9b8105e07a93a4ec62c8d1ba7ce4ca8a294150b60eebc"
+        ]
+    },
+    {
+        "question": "What is the relationship between the class constructor and the make_query method?",
+        "chunk_ids": [
+            "a545b946337c18bdcab9b8105e07a93a4ec62c8d1ba7ce4ca8a294150b60eebc",
+            "d6352d94e0eff0a90ab8e919d71ae2fe5b607cbdc23e5de59ee842d030a72d9c"
+        ]
+    },
+    {
+        "question": "How does the controller access configuration data?",
+        "chunk_ids": [
+            "b4ac9052a97193bf11238498d0a5f31526a71ac2d83629387932e9e79ef106bc"
+        ]
+    },
+    {
+        "question": "What dependencies are required for the Random Query functionality?",
+        "chunk_ids": [
+            "bf8827858be98c448481534e0fed1a41837732ec5ff246d068b38f9490232647"
+        ]
+    },
+    {
+        "question": "How is dependency injection implemented in this FastAPI application?",
+        "chunk_ids": [
+            "0a5a116b73fbe96e6aff2738d18073df2bea6c650043623c54eaef402fd94feb",
+            "bf8827858be98c448481534e0fed1a41837732ec5ff246d068b38f9490232647"
+        ]
+    },
+    {
+        "question": "What's the relationship between controller initialization and usecase access?",
+        "chunk_ids": [
+            "0a5a116b73fbe96e6aff2738d18073df2bea6c650043623c54eaef402fd94feb",
+            "b4ac9052a97193bf11238498d0a5f31526a71ac2d83629387932e9e79ef106bc"
+        ]
+    },
+    {
+        "question": "How is dependency injection implemented in this FastAPI application?",
+        "chunk_ids": [
+            "40236ee4e75984f45d596efb98b8de6c33c357c18c10cded642424858b4ff4ed",
+            "bb0bbcc1350c2e6935ad2c1cd7cfefde6bd2ba8581a4cc571995633784aee169"
+        ]
+    },
+    {
+        "question": "What is the structure of the RandomQuestion controller class?",
+        "chunk_ids": [
+            "bb0bbcc1350c2e6935ad2c1cd7cfefde6bd2ba8581a4cc571995633784aee169",
+            "adf22647ac809481b11d44f2f499d5e694e7a9784fd7209b917800ddeb40cb72"
+        ]
+    },
+    {
+        "question": "How are asynchronous operations handled in this API framework?",
+        "chunk_ids": [
+            "adf22647ac809481b11d44f2f499d5e694e7a9784fd7209b917800ddeb40cb72"
+        ]
+    },
+    {
+        "question": "How do I implement dependency injection in a FastAPI application?",
+        "chunk_ids": [
+            "35a401805d661f7b8282d5c3f1e3c0f2987359bd36f8e700621d074c63dda2f7",
+            "2f992884820aed9b71897772a74802d5760055232a0ecff8a9ea644783e40faf"
+        ]
+    },
+    {
+        "question": "What is the purpose of the random_question method in this codebase?",
+        "chunk_ids": [
+            "a6ceb398a8459d7e504bc57df2a81cf341bb4cbe81d8f6d1d7c0f3968067c880"
+        ]
+    },
+    {
+        "question": "How are repositories initialized and accessed in this application structure?",
+        "chunk_ids": [
+            "2f992884820aed9b71897772a74802d5760055232a0ecff8a9ea644783e40faf",
+            "35a401805d661f7b8282d5c3f1e3c0f2987359bd36f8e700621d074c63dda2f7"
+        ]
+    },
+    {
+        "question": "How do I retrieve a user's previous configurations?",
+        "chunk_ids": [
+            "67ec08c5b392fb66f9eec61612de3b3bacaff650968bc6153f1a27e862af08e3"
+        ]
+    },
+    {
+        "question": "What dependencies are required for the reranking functionality?",
+        "chunk_ids": [
+            "c84f16d05d999aab0e99f98e85a6d50444823bf2cc49a731dec9354344bc2bcb"
+        ]
+    },
+    {
+        "question": "How is the index repository integrated with reranking services?",
+        "chunk_ids": [
+            "dd93029d663f9fba98c2ced29eec2c7a093023f158b44553109e35bb802959ee",
+            "67ec08c5b392fb66f9eec61612de3b3bacaff650968bc6153f1a27e862af08e3"
+        ]
+    },
+    {
+        "question": "What's the relationship between the controller and repository layers?",
+        "chunk_ids": [
+            "67ec08c5b392fb66f9eec61612de3b3bacaff650968bc6153f1a27e862af08e3",
+            "dd93029d663f9fba98c2ced29eec2c7a093023f158b44553109e35bb802959ee"
+        ]
+    },
+    {
+        "question": "How does the system rerank documents using different reranker services?",
+        "chunk_ids": [
+            "f548bfac791db7c4cec48a8a383fab9982ea75cacc72f7cde9cd84e9df9da757"
+        ]
+    },
+    {
+        "question": "What is the process for executing a reranking request?",
+        "chunk_ids": [
+            "f5a146ff99211a37ffdded124c78641e59d769609ec0bfba59127afd9d7db78c"
+        ]
+    },
+    {
+        "question": "How does the system handle processing multiple questions in parallel?",
+        "chunk_ids": [
+            "f5a146ff99211a37ffdded124c78641e59d769609ec0bfba59127afd9d7db78c",
+            "4837a05ad714f1b7d909cbbf565d9f8454a66fc596d82fe2d8d55d217a558ab5"
+        ]
+    },
+    {
+        "question": "What are the supported reranking models and how are they implemented?",
+        "chunk_ids": [
+            "f548bfac791db7c4cec48a8a383fab9982ea75cacc72f7cde9cd84e9df9da757"
+        ]
+    },
+    {
+        "question": "What evaluation metrics are calculated for search results?",
+        "chunk_ids": [
+            "b0072f329fff4959b43fdc24ece07007581766e6e54d61f825d35ed2ab78f999"
+        ]
+    },
+    {
+        "question": "How are average evaluation metrics calculated across multiple searches?",
+        "chunk_ids": [
+            "c3224d81b173627e3fdd1fa336e41feb8ed68bcdce1878e883ff982487cbd24d"
+        ]
+    },
+    {
+        "question": "What dependencies are imported for the search evaluation system?",
+        "chunk_ids": [
+            "3bbd9b70bbde9fbfea632d057c91825baf7d0bcd512f71e245ecec148808b96b"
+        ]
+    },
+    {
+        "question": "How are precision and recall metrics used to evaluate search performance?",
+        "chunk_ids": [
+            "b0072f329fff4959b43fdc24ece07007581766e6e54d61f825d35ed2ab78f999",
+            "c3224d81b173627e3fdd1fa336e41feb8ed68bcdce1878e883ff982487cbd24d"
+        ]
+    },
+    {
+        "question": "How does the system handle embedding generation for large batches of questions?",
+        "chunk_ids": [
+            "01f1a6ff1dad030a07e05ee05ae931689ef835d4b9bb6c65d0900b21edf60fc3",
+            "96bac761b0a2f839c388ae663c5b5b4363ce8455d3824d6bb5b76f4799b2f42c"
+        ]
+    },
+    {
+        "question": "What validation checks are performed before processing a query request?",
+        "chunk_ids": [
+            "01f1a6ff1dad030a07e05ee05ae931689ef835d4b9bb6c65d0900b21edf60fc3"
+        ]
+    },
+    {
+        "question": "How are different embedding models mapped to their service providers?",
+        "chunk_ids": [
+            "561fa37b4150dbdf9c937f5207a3a54c260931df2aa0d9b18ec65d3fe5d2b18e"
+        ]
+    },
+    {
+        "question": "What evaluation metrics are calculated for query results?",
+        "chunk_ids": [
+            "01f1a6ff1dad030a07e05ee05ae931689ef835d4b9bb6c65d0900b21edf60fc3"
+        ]
+    },
+    {
+        "question": "How does the system generate dense embeddings for search queries?",
+        "chunk_ids": [
+            "211c385c0b67cf1fb829501bf17c6be6f83e8704e5aff2d4aa1b27c6d322d9c4"
+        ]
+    },
+    {
+        "question": "What is the process for evaluating search results against ground truth data?",
+        "chunk_ids": [
+            "b486e2bc7990026638299672825577026b18902b8426bf5ad69ab447c08de0b1"
+        ]
+    },
+    {
+        "question": "How does the system resolve index namespaces and hosts?",
+        "chunk_ids": [
+            "e2eb49243e7415b3311653be72371a676d9a242c4bc36ae41bf5072b4fa48aa7"
+        ]
+    },
+    {
+        "question": "How does the search system handle hybrid vs regular search queries?",
+        "chunk_ids": [
+            "b486e2bc7990026638299672825577026b18902b8426bf5ad69ab447c08de0b1"
+        ]
+    },
+    {
+        "question": "How do different embedding services generate vector representations for input questions?",
+        "chunk_ids": [
+            "d19d8ff8ec58a706f493b75a2729b36fcc4565fae9989751488e7d02532d3151",
+            "d26fe5324a0b8216c01dba12b3af3a2aa2cb023ed3050da6bb8408fae539988e",
+            "88b4c1125faf84d9f64e250d4e859f66fd45acb7b04edec581c3e05e0bcd0705"
+        ]
+    },
+    {
+        "question": "What are the different input type parameters used in embedding generation methods?",
+        "chunk_ids": [
+            "d19d8ff8ec58a706f493b75a2729b36fcc4565fae9989751488e7d02532d3151",
+            "d26fe5324a0b8216c01dba12b3af3a2aa2cb023ed3050da6bb8408fae539988e",
+            "88b4c1125faf84d9f64e250d4e859f66fd45acb7b04edec581c3e05e0bcd0705"
+        ]
+    },
+    {
+        "question": "How are text inputs formatted differently for different embedding generation methods?",
+        "chunk_ids": [
+            "d19d8ff8ec58a706f493b75a2729b36fcc4565fae9989751488e7d02532d3151",
+            "d26fe5324a0b8216c01dba12b3af3a2aa2cb023ed3050da6bb8408fae539988e",
+            "88b4c1125faf84d9f64e250d4e859f66fd45acb7b04edec581c3e05e0bcd0705"
+        ]
+    },
+    {
+        "question": "How are vector embeddings generated for voyage AI queries?",
+        "chunk_ids": [
+            "cc2100da61c64e42b0f38027d176b6fe3d01cd564fbc3ad8479b1c753fd64a91"
+        ]
+    },
+    {
+        "question": "What's the difference between hybrid and regular vector search implementations?",
+        "chunk_ids": [
+            "eaad667e5a1dddbe36a64cd7dbbf7e68aff6e5b8fd1976a53fa28b4ccfd6cee1",
+            "24665720a221df57d60480d4d3042b19a38be912d847027a733f0332a23d2928"
+        ]
+    },
+    {
+        "question": "How does error handling work in vector search operations?",
+        "chunk_ids": [
+            "eaad667e5a1dddbe36a64cd7dbbf7e68aff6e5b8fd1976a53fa28b4ccfd6cee1",
+            "24665720a221df57d60480d4d3042b19a38be912d847027a733f0332a23d2928"
+        ]
+    },
+    {
+        "question": "What parameters are needed for vector search operations?",
+        "chunk_ids": [
+            "eaad667e5a1dddbe36a64cd7dbbf7e68aff6e5b8fd1976a53fa28b4ccfd6cee1",
+            "24665720a221df57d60480d4d3042b19a38be912d847027a733f0332a23d2928"
+        ]
+    },
+    {
+        "question": "How does the system fetch ground truth data for evaluating search results?",
+        "chunk_ids": [
+            "a647c06fa5d3c0f9ef5674c9fc450478c83dc0ce77095fac39327ab8a35b1457"
+        ]
+    },
+    {
+        "question": "What evaluation metrics are calculated when comparing retrieved documents to ground truth?",
+        "chunk_ids": [
+            "89ce9828e8846b1b1cfe1f3504b309d26b8fab2ae0d2b10a44b2189e5c5890c9"
+        ]
+    },
+    {
+        "question": "How are evaluation metrics averaged across multiple search queries?",
+        "chunk_ids": [
+            "d7739fb3b8bb7c8ff758a8fcbdd02f141bcc363ee54b2e77b170e6d6865550dc"
+        ]
+    },
+    {
+        "question": "How does the system handle errors during metric calculation?",
+        "chunk_ids": [
+            "89ce9828e8846b1b1cfe1f3504b309d26b8fab2ae0d2b10a44b2189e5c5890c9"
+        ]
+    },
+    {
+        "question": "How does the system validate embeddings for questions?",
+        "chunk_ids": [
+            "51ce62912b132eddac0cf9308851032328a3b6e96fb72513f3fdbd86214954c8"
+        ]
+    },
+    {
+        "question": "What checks are performed to verify embedding validity?",
+        "chunk_ids": [
+            "51ce62912b132eddac0cf9308851032328a3b6e96fb72513f3fdbd86214954c8"
+        ]
+    },
+    {
+        "question": "What repositories are initialized in the constructor?",
+        "chunk_ids": [
+            "46d8e813c799c697c6127915b56e1ef6acb9b69c6574c982bc2dc27055b51c9b"
+        ]
+    },
+    {
+        "question": "Which logging utilities are used in the application?",
+        "chunk_ids": [
+            "51ce62912b132eddac0cf9308851032328a3b6e96fb72513f3fdbd86214954c8",
+            "3ec178563cab47ffaa8e6f3e7c1b8ce0a31e540552380baca99a43063d978c78"
+        ]
+    },
+    {
+        "question": "How is the file reading and writing implemented for large files?",
+        "chunk_ids": [
+            "34688fd23b36b6cb750d726af649ceb5ac190a19dead249372518eaabbbbfe98"
+        ]
+    },
+    {
+        "question": "How are unique identifiers added to JSON data items?",
+        "chunk_ids": [
+            "fbce755440f3e912906275b6dab274824f4a2263faa5b655af8c13a225d92b14"
+        ]
+    },
+    {
+        "question": "How does the system generate questions from multiple text chunks?",
+        "chunk_ids": [
+            "2a33ef1e97ad5d81536786fe878e3c7695354ebec85535b8a84e494ee8821c5f"
+        ]
+    },
+    {
+        "question": "What file handling and data processing methods are used across the system?",
+        "chunk_ids": [
+            "34688fd23b36b6cb750d726af649ceb5ac190a19dead249372518eaabbbbfe98",
+            "fbce755440f3e912906275b6dab274824f4a2263faa5b655af8c13a225d92b14",
+            "2a33ef1e97ad5d81536786fe878e3c7695354ebec85535b8a84e494ee8821c5f"
+        ]
+    },
+    {
+        "question": "How does the system process and enrich JSON data from uploaded files?",
+        "chunk_ids": [
+            "6aab042ec674207b65176e293c0dfe3026933e6e593f62bf5212f2a35be60b76"
+        ]
+    },
+    {
+        "question": "How are multi-chunk queries generated from dataset chunks?",
+        "chunk_ids": [
+            "8fb9a720f10306bd19daedbe8d3cdae8baa48ecb87896300574af52b19ec7cdf",
+            "6aab042ec674207b65176e293c0dfe3026933e6e593f62bf5212f2a35be60b76"
+        ]
+    },
+    {
+        "question": "What validation checks are performed when processing uploaded JSON files?",
+        "chunk_ids": [
+            "6aab042ec674207b65176e293c0dfe3026933e6e593f62bf5212f2a35be60b76"
+        ]
+    },
+    {
+        "question": "How does the system handle existing files that have already been processed?",
+        "chunk_ids": [
+            "6aab042ec674207b65176e293c0dfe3026933e6e593f62bf5212f2a35be60b76"
+        ]
+    },
+    {
+        "question": "How does the system handle embedding generation for different providers?",
+        "chunk_ids": [
+            "f338a7345ce1ebe099ea8326ebf9df5f8f4812feeb954a47206a074fe987df9a",
+            "2141fe16912317c1e99c5e4cc11421b690ebf0db2a4b64e918ddb36eea2b58e0"
+        ]
+    },
+    {
+        "question": "What embedding model providers are supported in this system?",
+        "chunk_ids": [
+            "b18fa7de9b1a6fe8fbe852998ae0195e9b829306d66a3cd2151ff8e6b73c7d2b"
+        ]
+    },
+    {
+        "question": "How is concurrency managed when processing embedding chunks?",
+        "chunk_ids": [
+            "f338a7345ce1ebe099ea8326ebf9df5f8f4812feeb954a47206a074fe987df9a",
+            "2141fe16912317c1e99c5e4cc11421b690ebf0db2a4b64e918ddb36eea2b58e0",
+            "b18fa7de9b1a6fe8fbe852998ae0195e9b829306d66a3cd2151ff8e6b73c7d2b"
+        ]
+    },
+    {
+        "question": "How are embeddings processed in batches?",
+        "chunk_ids": [
+            "f338a7345ce1ebe099ea8326ebf9df5f8f4812feeb954a47206a074fe987df9a",
+            "b18fa7de9b1a6fe8fbe852998ae0195e9b829306d66a3cd2151ff8e6b73c7d2b"
+        ]
+    },
+    {
+        "question": "How do I batch and upsert vectors to Pinecone?",
+        "chunk_ids": [
+            "2a57576fc119729404d6bf98a2b3c6e022c0ca5247bb182ed2ecfbd84fee0249"
+        ]
+    },
+    {
+        "question": "What's the process for upserting data with sparse embeddings?",
+        "chunk_ids": [
+            "2a57576fc119729404d6bf98a2b3c6e022c0ca5247bb182ed2ecfbd84fee0249"
+        ]
+    },
+    {
+        "question": "How does error handling work during vector upserting?",
+        "chunk_ids": [
+            "1b357d0df7872f84e79baa269438d0e94ebcc279904b4973c91b2bf0f995620a",
+            "2a57576fc119729404d6bf98a2b3c6e022c0ca5247bb182ed2ecfbd84fee0249"
+        ]
+    },
+    {
+        "question": "How are namespaces created and associated with indexes?",
+        "chunk_ids": [
+            "f91cfb86aecd1f5245daa021f3ef724a8629923aa134c0e65d19b6915707a0f9",
+            "2a57576fc119729404d6bf98a2b3c6e022c0ca5247bb182ed2ecfbd84fee0249"
+        ]
+    },
+    {
+        "question": "How does the service handle upsert requests for Pinecone indexes?",
+        "chunk_ids": [
+            "a0fd47fda7c6a063782259f296cb54ee7c01043ad593bb3f5de3454a8daa8ae8"
+        ]
+    },
+    {
+        "question": "What embedding models are supported by the application?",
+        "chunk_ids": [
+            "9e4b7f8e897bdfdc63ba58672ee9b9bec46755c7312bc1a976c9f833435b2973"
+        ]
+    },
+    {
+        "question": "How does the system handle duplicate index configurations?",
+        "chunk_ids": [
+            "a0fd47fda7c6a063782259f296cb54ee7c01043ad593bb3f5de3454a8daa8ae8"
+        ]
+    },
+    {
+        "question": "What dependencies are required for the index management functionality?",
+        "chunk_ids": [
+            "7cf646a1b37633dd4a511aae6958d7567f033094a7788cbfb6286ffa13c22f27",
+            "9e4b7f8e897bdfdc63ba58672ee9b9bec46755c7312bc1a976c9f833435b2973"
+        ]
+    },
+    {
+        "question": "How does the system handle different embedding providers for query processing?",
+        "chunk_ids": [
+            "a27799ec95c4723926863b28abf343df7f519fa35804bc7e9866edac41f97dce"
+        ]
+    },
+    {
+        "question": "What is the process for executing a hybrid search query?",
+        "chunk_ids": [
+            "8f84c53d9c8557a2092466f9c818c05db80a7dbea3981c071f4683522329541d"
+        ]
+    },
+    {
+        "question": "How are namespace and host information retrieved for index operations?",
+        "chunk_ids": [
+            "a779846bbc15f5a1c3ed6fddb8bd2dcd4a46886e9513d1f9f516234e0cd50593"
+        ]
+    },
+    {
+        "question": "How is query response data formatted before returning results to the user?",
+        "chunk_ids": [
+            "8f84c53d9c8557a2092466f9c818c05db80a7dbea3981c071f4683522329541d"
+        ]
+    },
+    {
+        "question": "What is the end-to-end flow for processing a vector search query?",
+        "chunk_ids": [
+            "8f84c53d9c8557a2092466f9c818c05db80a7dbea3981c071f4683522329541d",
+            "a779846bbc15f5a1c3ed6fddb8bd2dcd4a46886e9513d1f9f516234e0cd50593",
+            "a27799ec95c4723926863b28abf343df7f519fa35804bc7e9866edac41f97dce"
+        ]
+    },
+    {
+        "question": "How does the service retrieve a random question with ground truth data?",
+        "chunk_ids": [
+            "a566c74cd6be34b6865cd71874a3142d657efc506ff064b20d5daba59b357a95"
+        ]
+    },
+    {
+        "question": "What dependencies are imported for data repositories in the application?",
+        "chunk_ids": [
+            "4a290fe9faa48c8f0282700f64d4c10dfce10a0d170e4ae32f062d2f99a042b7"
+        ]
+    },
+    {
+        "question": "How is exception handling implemented when fetching question data?",
+        "chunk_ids": [
+            "a566c74cd6be34b6865cd71874a3142d657efc506ff064b20d5daba59b357a95"
+        ]
+    },
+    {
+        "question": "How are repository dependencies initialized and utilized in the service?",
+        "chunk_ids": [
+            "5c74e17f267c0d5d08fa649c5a036dc5c6802bc42beb8cc26f3be25d734c0da5",
+            "a566c74cd6be34b6865cd71874a3142d657efc506ff064b20d5daba59b357a95"
+        ]
+    },
+    {
+        "question": "How do I list Pinecone indexes using the API?",
+        "chunk_ids": [
+            "a058a6237ad7918cc22ce8ff62cc33e4fd90495c5783a545c0f8a8bd9e567426"
+        ]
+    },
+    {
+        "question": "What configuration settings are required for Pinecone integration?",
+        "chunk_ids": [
+            "560b96cee9700ee5aad337552339d0f117c8ce3ceafae3d7e0cb3403c8a5294e",
+            "4e8e4f1f67baa55f2fc9c18b041aa8b86465bdc77b24f5cf447e9d4654f58f66"
+        ]
+    },
+    {
+        "question": "How is error handling implemented in the Pinecone API wrapper?",
+        "chunk_ids": [
+            "a058a6237ad7918cc22ce8ff62cc33e4fd90495c5783a545c0f8a8bd9e567426"
+        ]
+    },
+    {
+        "question": "What timeout configurations are set for API requests?",
+        "chunk_ids": [
+            "4e8e4f1f67baa55f2fc9c18b041aa8b86465bdc77b24f5cf447e9d4654f58f66"
+        ]
+    },
+    {
+        "question": "How to create a new vector index with serverless configuration?",
+        "chunk_ids": [
+            "34a1094bd292436688f344a589bac63bc55758f3fc31841761a050979bdb6832"
+        ]
+    },
+    {
+        "question": "What is the error handling approach in vector operations?",
+        "chunk_ids": [
+            "34a1094bd292436688f344a589bac63bc55758f3fc31841761a050979bdb6832",
+            "ef65e44833fef513f60feeac5f9e0ff4b1d1f187e0ba088dbde4ced6f4b76459"
+        ]
+    },
+    {
+        "question": "How are vector embeddings and metadata formatted for database operations?",
+        "chunk_ids": [
+            "09142a1f42a9a8a58120d47997ea208c95e47f2c359cafcb3835e47744b75bc1"
+        ]
+    },
+    {
+        "question": "What is the process for upserting vectors to a database?",
+        "chunk_ids": [
+            "ef65e44833fef513f60feeac5f9e0ff4b1d1f187e0ba088dbde4ced6f4b76459",
+            "09142a1f42a9a8a58120d47997ea208c95e47f2c359cafcb3835e47744b75bc1"
+        ]
+    },
+    {
+        "question": "How do you balance between dense and sparse vectors in a hybrid search?",
+        "chunk_ids": [
+            "60b08bf8ab6ec2334c618c10dc255a753dd9756d714cf60eac7de83feb9fca0e",
+            "db195a6771645139553a65c7c8aca9e61336e6fc36da6fd7b9f7f7fcdb00fbed"
+        ]
+    },
+    {
+        "question": "What's the difference between standard vector search and hybrid vector search?",
+        "chunk_ids": [
+            "4699a14d582737a0499d0065452410a43ad306735cfb72b6ac3d969bfef6e893",
+            "db195a6771645139553a65c7c8aca9e61336e6fc36da6fd7b9f7f7fcdb00fbed"
+        ]
+    },
+    {
+        "question": "How do you handle filtering in vector database queries?",
+        "chunk_ids": [
+            "4699a14d582737a0499d0065452410a43ad306735cfb72b6ac3d969bfef6e893",
+            "db195a6771645139553a65c7c8aca9e61336e6fc36da6fd7b9f7f7fcdb00fbed"
+        ]
+    },
+    {
+        "question": "How are error conditions handled in vector database operations?",
+        "chunk_ids": [
+            "4699a14d582737a0499d0065452410a43ad306735cfb72b6ac3d969bfef6e893",
+            "db195a6771645139553a65c7c8aca9e61336e6fc36da6fd7b9f7f7fcdb00fbed"
+        ]
+    },
+    {
+        "question": "How does the system generate embeddings using Pinecone?",
+        "chunk_ids": [
+            "6e7322206e4c091ae4c733450c2fcd83bfb4c8355f770f85687f5f5547f7e7cd"
+        ]
+    },
+    {
+        "question": "What API keys are configured for embedding services?",
+        "chunk_ids": [
+            "367f8989ceeb2a7e7b6c4be1092ff1df86858c3baec976a743f53bf9a759242a"
+        ]
+    },
+    {
+        "question": "How are HTTP timeouts configured for API requests?",
+        "chunk_ids": [
+            "367f8989ceeb2a7e7b6c4be1092ff1df86858c3baec976a743f53bf9a759242a"
+        ]
+    },
+    {
+        "question": "What error handling is implemented for embedding API calls?",
+        "chunk_ids": [
+            "6e7322206e4c091ae4c733450c2fcd83bfb4c8355f770f85687f5f5547f7e7cd"
+        ]
+    },
+    {
+        "question": "How do embedding services handle errors and exceptions?",
+        "chunk_ids": [
+            "f12590ba98a5a4e443eaa9a79f9306685dbff3c39c2b8e41f4b89f6740b41ec1",
+            "60a53525a6c536fa77b6e8e60a23ea4fe385d2d87727c065e04fc72acdd87e37",
+            "e0e5a5cb79f36e736be5f9132ec3961359318fcaa28d5f4131f80832079a5d88"
+        ]
+    },
+    {
+        "question": "What are the differences between sparse and dense embedding implementations?",
+        "chunk_ids": [
+            "f12590ba98a5a4e443eaa9a79f9306685dbff3c39c2b8e41f4b89f6740b41ec1",
+            "60a53525a6c536fa77b6e8e60a23ea4fe385d2d87727c065e04fc72acdd87e37",
+            "e0e5a5cb79f36e736be5f9132ec3961359318fcaa28d5f4131f80832079a5d88"
+        ]
+    },
+    {
+        "question": "How do different embedding APIs handle authentication and request formatting?",
+        "chunk_ids": [
+            "60a53525a6c536fa77b6e8e60a23ea4fe385d2d87727c065e04fc72acdd87e37",
+            "e0e5a5cb79f36e736be5f9132ec3961359318fcaa28d5f4131f80832079a5d88"
+        ]
+    },
+    {
+        "question": "How is usage tracking implemented for embedding API calls?",
+        "chunk_ids": [
+            "60a53525a6c536fa77b6e8e60a23ea4fe385d2d87727c065e04fc72acdd87e37",
+            "e0e5a5cb79f36e736be5f9132ec3961359318fcaa28d5f4131f80832079a5d88"
+        ]
+    },
+    {
+        "question": "How do API clients handle HTTP errors when fetching embeddings?",
+        "chunk_ids": [
+            "bdc9d63f8d6b4a43f5c07f1afb31cd6f47a2bd690321d0a24f2cc2b2d81a4b72",
+            "47cbf17e7a019f83fb0482520ee2fea1846c890b7bdb48dafc1b936ff0832a2c"
+        ]
+    },
+    {
+        "question": "What are the key differences between TogetherAI and VoyageAI embedding implementations?",
+        "chunk_ids": [
+            "bdc9d63f8d6b4a43f5c07f1afb31cd6f47a2bd690321d0a24f2cc2b2d81a4b72",
+            "47cbf17e7a019f83fb0482520ee2fea1846c890b7bdb48dafc1b936ff0832a2c"
+        ]
+    },
+    {
+        "question": "How do the embedding functions handle response parsing and error logging?",
+        "chunk_ids": [
+            "bdc9d63f8d6b4a43f5c07f1afb31cd6f47a2bd690321d0a24f2cc2b2d81a4b72",
+            "47cbf17e7a019f83fb0482520ee2fea1846c890b7bdb48dafc1b936ff0832a2c",
+            "91714e2366f1d257e2f3382f4546ba0b39a3e416881df09c2e76eac676d2394c"
+        ]
+    },
+    {
+        "question": "What parameters are required for generating text embeddings from external APIs?",
+        "chunk_ids": [
+            "bdc9d63f8d6b4a43f5c07f1afb31cd6f47a2bd690321d0a24f2cc2b2d81a4b72",
+            "47cbf17e7a019f83fb0482520ee2fea1846c890b7bdb48dafc1b936ff0832a2c"
+        ]
+    },
+    {
+        "question": "How is Discounted Cumulative Gain calculated for document retrieval?",
+        "chunk_ids": [
+            "8f6e1967c38ac1f15141efc0576926099a19572ccf203ff325b74cb5bebacbea"
+        ]
+    },
+    {
+        "question": "What is the formula for computing ideal relevance in information retrieval?",
+        "chunk_ids": [
+            "c067ce727dfaf902a17e99a24af1d6ebac799142b93263136a6b00e587403cbd"
+        ]
+    },
+    {
+        "question": "How is Normalized DCG implemented for evaluating search results?",
+        "chunk_ids": [
+            "be1c760533bb00d549a4b4fdd37c4be2c1b2efc397bddc586cf4cf993027bf7b"
+        ]
+    },
+    {
+        "question": "What metrics are used to evaluate retrieval system performance?",
+        "chunk_ids": [
+            "8f6e1967c38ac1f15141efc0576926099a19572ccf203ff325b74cb5bebacbea",
+            "c067ce727dfaf902a17e99a24af1d6ebac799142b93263136a6b00e587403cbd",
+            "be1c760533bb00d549a4b4fdd37c4be2c1b2efc397bddc586cf4cf993027bf7b"
+        ]
+    },
+    {
+        "question": "How does BPREF handle relevant and irrelevant documents in search results?",
+        "chunk_ids": [
+            "689b202f59428a3f3286123fa822b01cc4949e1f7377ccb1f603e3d03bd06f3b"
+        ]
+    },
+    {
+        "question": "What's the difference between precision and recall metrics in document retrieval?",
+        "chunk_ids": [
+            "65746dacd85d5f49531697e99e0ed5ad44c0d46fd1ded951481d5dd8eb10daa7",
+            "20e5c707239a9a545b9c93a4f1c1fe799bc83f9b2e4018155fb9eb5e4f1b819b"
+        ]
+    },
+    {
+        "question": "How are evaluation metrics calculated for document retrieval systems?",
+        "chunk_ids": [
+            "689b202f59428a3f3286123fa822b01cc4949e1f7377ccb1f603e3d03bd06f3b",
+            "65746dacd85d5f49531697e99e0ed5ad44c0d46fd1ded951481d5dd8eb10daa7",
+            "20e5c707239a9a545b9c93a4f1c1fe799bc83f9b2e4018155fb9eb5e4f1b819b"
+        ]
+    },
+    {
+        "question": "How do information retrieval metrics handle edge cases with empty result sets?",
+        "chunk_ids": [
+            "689b202f59428a3f3286123fa822b01cc4949e1f7377ccb1f603e3d03bd06f3b",
+            "20e5c707239a9a545b9c93a4f1c1fe799bc83f9b2e4018155fb9eb5e4f1b819b"
+        ]
+    },
+    {
+        "question": "How do you calculate precision and recall to determine F1 Score for document retrieval?",
+        "chunk_ids": [
+            "2b274eaddaabe473319c1379032eac56afe059e1ebe30dfebc7c4d09542b3543"
+        ]
+    },
+    {
+        "question": "What method evaluates if any relevant document appears in the top-K results?",
+        "chunk_ids": [
+            "3de0a604ebb126cce2c7c27074d1b5e75b6de4baddbf7de6fa0d323986c76ee9"
+        ]
+    },
+    {
+        "question": "How is reciprocal rank calculated for document retrieval evaluation?",
+        "chunk_ids": [
+            "9826446cf3af509400f1a4c9134435e032644bd99cb227d9f2b62dcb2c5b553a"
+        ]
+    },
+    {
+        "question": "What are the different evaluation metrics for information retrieval systems?",
+        "chunk_ids": [
+            "2b274eaddaabe473319c1379032eac56afe059e1ebe30dfebc7c4d09542b3543",
+            "3de0a604ebb126cce2c7c27074d1b5e75b6de4baddbf7de6fa0d323986c76ee9",
+            "9826446cf3af509400f1a4c9134435e032644bd99cb227d9f2b62dcb2c5b553a"
+        ]
+    },
+    {
+        "question": "How is Mean Average Precision calculated for retrieved documents compared to ground truth?",
+        "chunk_ids": [
+            "d04963a67f8f514dcb529d1584b98a7f8ebca51d0d917b31e159102d2caf0588"
+        ]
+    },
+    {
+        "question": "What error handling strategies are implemented in the evaluation metrics calculation?",
+        "chunk_ids": [
+            "d04963a67f8f514dcb529d1584b98a7f8ebca51d0d917b31e159102d2caf0588"
+        ]
+    },
+    {
+        "question": "How are API configurations initialized for retrieval and reranking services?",
+        "chunk_ids": [
+            "03b42c82b71e2df6b46621e1a14df6f4a2c3ca3397186d1a1bb84edc3b1144f0",
+            "691076586db2583ff6c6ee5eb80f49da8912501924240cc8bfc9e75457c94beb"
+        ]
+    },
+    {
+        "question": "What types of external APIs are being integrated in this system?",
+        "chunk_ids": [
+            "03b42c82b71e2df6b46621e1a14df6f4a2c3ca3397186d1a1bb84edc3b1144f0"
+        ]
+    },
+    {
+        "question": "How do different reranking services handle API communication and error reporting?",
+        "chunk_ids": [
+            "4eaeb117de9f86d0226916433b8844d3121b0cea8e72431de9e09a4a6bc401ac",
+            "5172c965ec33a86e9cf35a2fc98ed3467448c55e69bb331df065218f1caf0ae2",
+            "6057a6b072a505fab876260d9d874ebd39534569c15896be93fa1395469a8c60"
+        ]
+    },
+    {
+        "question": "What parameters are required for document reranking across different providers?",
+        "chunk_ids": [
+            "4eaeb117de9f86d0226916433b8844d3121b0cea8e72431de9e09a4a6bc401ac",
+            "5172c965ec33a86e9cf35a2fc98ed3467448c55e69bb331df065218f1caf0ae2",
+            "6057a6b072a505fab876260d9d874ebd39534569c15896be93fa1395469a8c60"
+        ]
+    },
+    {
+        "question": "How is token usage tracking implemented for reranking services?",
+        "chunk_ids": [
+            "4eaeb117de9f86d0226916433b8844d3121b0cea8e72431de9e09a4a6bc401ac",
+            "5172c965ec33a86e9cf35a2fc98ed3467448c55e69bb331df065218f1caf0ae2",
+            "6057a6b072a505fab876260d9d874ebd39534569c15896be93fa1395469a8c60"
+        ]
+    },
+    {
+        "question": "What authentication mechanisms are used across different reranking APIs?",
+        "chunk_ids": [
+            "4eaeb117de9f86d0226916433b8844d3121b0cea8e72431de9e09a4a6bc401ac",
+            "5172c965ec33a86e9cf35a2fc98ed3467448c55e69bb331df065218f1caf0ae2",
+            "6057a6b072a505fab876260d9d874ebd39534569c15896be93fa1395469a8c60"
+        ]
+    },
+    {
+        "question": "How does the function handle errors when reranking documents?",
+        "chunk_ids": [
+            "417f137659c70b6a794a2c1a2b33bbd3eabd8c09768c871b4f2b550484d14dc5"
+        ]
+    },
+    {
+        "question": "What parameters are required for document reranking?",
+        "chunk_ids": [
+            "417f137659c70b6a794a2c1a2b33bbd3eabd8c09768c871b4f2b550484d14dc5"
+        ]
+    },
+    {
+        "question": "How does the system log reranking operations?",
+        "chunk_ids": [
+            "417f137659c70b6a794a2c1a2b33bbd3eabd8c09768c871b4f2b550484d14dc5"
+        ]
+    }
+]

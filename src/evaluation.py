@@ -1,6 +1,6 @@
 import math
 from typing import Dict, List
-from logging_util import loggers
+from src.logging_util import loggers
 
 class EvaluationService:
 
